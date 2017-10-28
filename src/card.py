@@ -45,6 +45,7 @@ class Card():
     def __setattr__(self,key,value):
         self.__dict__[key] = value
 
+    # called by print(,)
     def __repr__(self):
         # todo
         return '__repr__'
