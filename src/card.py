@@ -1,7 +1,7 @@
 
 
 
-class Card():
+class SetCard():
     """
     Every Card object has:
       number  = {0,1,2}
@@ -22,6 +22,7 @@ class Card():
 
     def __str__(self):
         sb = []
+        print (self.__dict__)
         for key in self.__dict__:
             sb.append('{key}={value}'.format(key=key,value=self.__dict__[key]))
         return ', '.join(sb)

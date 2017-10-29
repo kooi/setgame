@@ -1,7 +1,7 @@
 
 
 import random
-from card import Card
+from card import SetCard
 
 class Deck():
     """
@@ -30,7 +30,7 @@ class Deck():
             for sym in [0,1,2]:
                 for sha in [0,1,2]:
                     for col in [0,1,2]:
-                        self.addCard( Card(num,sym,sha,col) )
+                        self.addCard( SetCard(num,sym,sha,col) )
 #                        print('added card')
 #                        self.deck.append( Card(num,sym,sha,col) )
 

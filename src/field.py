@@ -31,7 +31,7 @@ class Field():
         """
         Number of cards on the field. This equals the size of the field minus the number of holes.
         """
-        return len(self.field) - field.count(None)
+        return len(self.field) - self.field.count(None)
 
 
     def __len__(self):

@@ -1,96 +1,127 @@
 import tkinter
 from tkinter import *
+from cardcanvas import CardCanvas
 from game import Game
-import turtle
+from deck import Deck
+from field import Field
+from card import SetCard
+
 
 class TkGUI():
 
-    cw = 56
-    ch = 89
     ncols = 4
     nrows = 3
 
     def __init__(self, game):
         self.game = game
         self.root = tkinter.Tk()
-        self.root.title('SET') #get out of settings?
+        self.root.title('CardCanvasTest') #get out of settings?
 
-        fieldFrame = tkinter.Frame(self.root)
-        fieldFrame.pack(side=LEFT)
+        # left: fieldFrame
+        self.fieldFrame = tkinter.Frame(self.root)
+        self.fieldFrame.pack(side=LEFT)
+        self.cards = []
+        for i in range(self.ncols):
+            for j in range(self.nrows):
+                self.cards.append( CardCanvas(self.fieldFrame, i*self.ncols+j,
+                                              "name"+str(i*self.ncols+j),
+                                              None ) )
+                print( j, i, " - ", self.cards[-1].number, self.cards[-1] )
+                self.cards[-1].grid(row = j, column = i)
+        self.fieldFrame.bind_class("CardCanvas", "<Button-1>", self.canvasCB)
+        self.fieldFrame.bind_class("Canvas",     "<Button-1>", self.canvasCB)
 
-#        cardButtons = [None]*20
-#        for j in range(3):
-#            for i in range(4):
-#                cardButtons[j*4 + i] = tkinter.Button(fieldFrame,
-#                                                      text = str(j*4+i),
-#                                                      command = lambda num=j*4+i: self.doCardClick(num) )
-#                cardButtons[j*4 + i].config(height=10, width=10)
-#                cardButtons[j*4 + i].grid(row = j, column = i)
+    # right: sideFrame
+        # debug helpers
+        self.sideFrame = tkinter.Frame(self.root)
+        self.sideFrame.pack(side=RIGHT)
+        self.b1 = tkinter.Button(self.sideFrame, text = "showLabels()", command = self.showLabels).pack()
+        self.b2 = tkinter.Button(self.sideFrame, text = "renderAll()" , command = self.renderAll ).pack()
+        self.b3 = tkinter.Button(self.sideFrame, text = "clearAll()"  , command = self.clearAll  ).pack()
+        self.b4 = tkinter.Button(self.sideFrame, text = "dealCards()" , command = self.dealCards ).pack()
 
-        self.cardCanvas = [None]*21 #max 21 cards?
-        for i in range(self.nrows):
-            for j in range(self.ncols):
-                self.cardCanvas[j*self.nrows + i] = tkinter.Canvas(fieldFrame,
-                                                     width=100, height=100,
-                                                     bg="white",
-                                                     confine=True)
-                #if not actually on the field, use grid()
-                self.cardCanvas[j*self.nrows + i].grid(row = i, column = j)
-        self.drawField()
+        #game buttons
+        self.gb1 = tkinter.Button(self.sideFrame, text = "testSet()"  , command = self.testSet   ).pack()
+        self.gb2 = tkinter.Button(self.sideFrame, text = "makeSet()"  , command = self.makeSet   ).pack()
+        self.gb3 = tkinter.Button(self.sideFrame, text = "countSets()", command = self.countSets ).pack()
+        
 
-        sideFrame = tkinter.Frame(self.root)
-        sideFrame.pack(side=RIGHT)
+## callbacks ##
 
-        b1 = tkinter.Button(sideFrame, text = "testCB()", command = self.testCB)
-        b1.pack()
-        b2 = tkinter.Button(sideFrame, text = "testCB()", command = self.testCB)
-        b2.pack()
-        b3 = tkinter.Button(sideFrame, text = "testCB()", command = self.testCB)
-        b3.pack()
-        b4 = tkinter.Button(sideFrame, text = "testCB()", command = self.testCB)
-        b4.pack()
-#        canvas = tkinter.Canvas(sideFrame,width=200,height=200)
-#        canvas.pack()
-
-        #####################
-
-#        t = turtle.RawTurtle(canvas)
-#        canvas.create_rectangle(20, 20, 0, 0, fill="red")
-#        t.forward(50)
+    def canvasCB(self, event):
+#        event.widget.renderCard()
+        event.widget.toggleSelect()
+#        print( event.widget._name )
 
 
-    def testCB(self):
-        msg = tkinter.messagebox.showinfo( "Hello Python", "Hello World")
+    def showLabels(self):
+        for c in self.cards:
+            c.drawLabel()
+#        return None
 
 
-    def doCardClick(self, cardnum):
-        msg = tkinter.messagebox.showinfo("cardnum = ", cardnum)
+    def renderAll(self):
+        for c in self.cards:
+            c.renderCard()
 
 
-    def drawField(self):
+    def clearAll(self):
+        for c in self.cards:
+            c.clearCanvas()
+
+
+    def dealCards(self):
         index = 0
-        for c in self.cardCanvas:
-            print(index)
-            #check if actually a canvas
-            if isinstance(c, Canvas):
-                self.drawCard(index)
-                index += 1
-        # if card is new call drawcard, else leave button as is
-        return None
+        for c in self.game.field:
+            self.cards[index].setcard = self.game.field[index]
+            index += 1
+        self.renderAll()
 
 
-    def drawCard(self, fieldnumber):
-        t = turtle.RawTurtle(self.cardCanvas[fieldnumber])
-        # DEFAULT: write cardnumber
-        # t.write(str(fieldnumber))
-        # TODO: get self.game.field[fieldnumber].card
-        print( self.game.field[fieldnumber] )
-        t.write( "n:" + str(self.game.field[fieldnumber].number)
-               + "y:" + str(self.game.field[fieldnumber].symbol)
-               + "h:"+ str(self.game.field[fieldnumber].shading)
-               + "c:"  + str(self.game.field[fi eldnumber].color)   )
-        return None
+## game callbacks ##
+    # pass 3 cards to game logic, if less than 3 selected
+    def testSet(self):
+        sc = [] #selectedcards
+        # get selected fieldcanvas
+        for cc in self.cards:
+            if cc.isSelected and isinstance(cc.setcard, SetCard):
+                sc.append(cc)
+        print ( sc )
+        if len( sc ) == 3:
+            msg = tkinter.messagebox.showinfo( "", str( self.game.isSet( sc[0].setcard,
+                                                                         sc[1].setcard,
+                                                                         sc[2].setcard ) ) )
+            # call game logic
+        else:
+            msg = tkinter.messagebox.showinfo("Select 3",
+                                              "Please select exactly 3 cards and no empty spaces...")
 
+
+    # pass 3 cards to game logic, if less than 3 selected
+    def makeSet(self):
+        sc = [] #selectedcards
+        # get selected fieldcanvas
+        for cc in self.cards:
+            if cc.isSelected and isinstance(cc.setcard, SetCard):
+                sc.append(cc)
+        print ( sc )
+        if len( sc ) == 2:
+            r = self.game.makeSet( sc[0].setcard, sc[1].setcard )
+            msg = tkinter.messagebox.showinfo( "", str(r['number'])    + ","
+                                                   + str(r['symbol'])  + ","
+                                                   + str(r['shading']) + ","
+                                                   + str(r['color'])         )
+            # call game logic
+        else:
+            msg = tkinter.messagebox.showinfo("Select 2",
+                                              "Please select exactly 2 cards and no empty spaces...")
+
+
+    def countSets(self):
+        msg = tkinter.messagebox.showinfo("Sets:",
+                                          str(self.game.countSets(self.game.field)) )
+
+###########
 
     def run(self):
         self.root.mainloop()
