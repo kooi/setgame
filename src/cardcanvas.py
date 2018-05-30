@@ -1,16 +1,9 @@
 import tkinter
 import turtle
-from card import SetCard
+from setkaart import SetKaart
 
 
 class CardCanvas(tkinter.Canvas):
-
-    # make a custom Canvas subclass that implements a
-    #  selectedstate -> True|False
-    #  selectedObject(s) -> remove all selected objects
-    #  associatedcard -> Crad object (can be none for blank card)
-    #  default sizex and sizey
-    #  a drawcard function that takes (symbol, color, shading, number)
 
 
     def __init__(self, parent, number, name, setcard):
@@ -26,7 +19,6 @@ class CardCanvas(tkinter.Canvas):
         self.setcard = setcard
         super().__init__(parent, width=self.sizex, height=self.sizey, bg=self.bgcolor, confine=True, name=name)
         self.myTurtle = turtle.RawTurtle(self)
-#        self.myTurtle.write( str(self.number) ) -> rendercard
 
 
     def toggleSelect(self):
@@ -39,24 +31,8 @@ class CardCanvas(tkinter.Canvas):
             self.isSelected = True
 
 
-    def renderCard(self):
-        tina = self.myTurtle
-        if self.setcard:
-            tina.write(
-                          str(self.setcard.number ) + ","
-                        + str(self.setcard.symbol ) + ","
-                        + str(self.setcard.shading) + ","
-                        + str(self.setcard.color  ) )
-
-
     def drawBorder(self):
         return self.create_rectangle(-50, -50, 49,  49, outline=self.selectedColor)
-
-
-    def testDraw(self):
-        tina = self.myTurtle
-        tina.forward(10)
-        tina.right(10)
 
 
     def drawLabel(self):
@@ -71,6 +47,30 @@ class CardCanvas(tkinter.Canvas):
                         + str(self.setcard.color  ) )
 
 
+    def testDraw(self):
+        tina = self.myTurtle
+        tina.forward(10)
+        tina.right(10)
+
+
     def clearCanvas(self):
         tina = self.myTurtle
         tina.clear()
+
+
+    def tekenOvaal(self, tina, kleur):
+        tina
+
+
+    def renderCard(self):
+        """
+        Laat tina de correcte tekening maken op de kaart. Maakt gebruik van
+        de hulpfuncties tekenOvaal, tekenRuit, tekenGolf,
+        """
+        tina = self.myTurtle
+        if self.setcard:
+            tina.write(
+                          str(self.setcard.hoeveelheid ) + ","
+                        + str(self.setcard.kleur       ) + ","
+                        + str(self.setcard.vorm        ) + ","
+                        + str(self.setcard.vulling     ) )

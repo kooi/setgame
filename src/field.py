@@ -1,6 +1,5 @@
 
 
-
 class Field():
     """
     Keeps track of the playing field cards. Implements the set! functions.
@@ -12,9 +11,6 @@ class Field():
 
 
     def addCard(self, card):
-        #add card to the end if there are no holes. if there are holes fill those first
-
-        #append to the end of the field
         self.field.append(card)
 
 

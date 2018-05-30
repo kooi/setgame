@@ -1,4 +1,4 @@
-from card  import SetCard
+from setkaart  import SetKaart
 from deck  import Deck
 from game  import Game
 from field import Field

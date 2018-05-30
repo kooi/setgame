@@ -4,7 +4,7 @@ from cardcanvas import CardCanvas
 from game import Game
 from deck import Deck
 from field import Field
-from card import SetCard
+from setkaart import SetKaart
 
 
 class TkGUI():
@@ -41,10 +41,10 @@ class TkGUI():
         self.b4 = tkinter.Button(self.sideFrame, text = "dealCards()" , command = self.dealCards ).pack()
 
         #game buttons
-        self.gb1 = tkinter.Button(self.sideFrame, text = "testSet()"  , command = self.testSet   ).pack()
-        self.gb2 = tkinter.Button(self.sideFrame, text = "makeSet()"  , command = self.makeSet   ).pack()
-        self.gb3 = tkinter.Button(self.sideFrame, text = "countSets()", command = self.countSets ).pack()
-        
+        self.gb1 = tkinter.Button(self.sideFrame, text = "isSet()"  , command = self.testSet   ).pack()
+        self.gb2 = tkinter.Button(self.sideFrame, text = "maakSet()", command = self.makeSet   ).pack()
+        self.gb3 = tkinter.Button(self.sideFrame, text = "telSets()", command = self.countSets ).pack()
+
 
 ## callbacks ##
 
@@ -84,7 +84,7 @@ class TkGUI():
         sc = [] #selectedcards
         # get selected fieldcanvas
         for cc in self.cards:
-            if cc.isSelected and isinstance(cc.setcard, SetCard):
+            if cc.isSelected and isinstance(cc.setcard, SetKaart):
                 sc.append(cc)
         print ( sc )
         if len( sc ) == 3:
@@ -102,15 +102,16 @@ class TkGUI():
         sc = [] #selectedcards
         # get selected fieldcanvas
         for cc in self.cards:
-            if cc.isSelected and isinstance(cc.setcard, SetCard):
+            if cc.isSelected and isinstance(cc.setcard, SetKaart):
                 sc.append(cc)
         print ( sc )
         if len( sc ) == 2:
-            r = self.game.makeSet( sc[0].setcard, sc[1].setcard )
-            msg = tkinter.messagebox.showinfo( "", str(r['number'])    + ","
-                                                   + str(r['symbol'])  + ","
-                                                   + str(r['shading']) + ","
-                                                   + str(r['color'])         )
+            r = self.game.maakSet( sc[0].setcard, sc[1].setcard )
+            # dit zou het beste gerenderd kunnen worden?
+            msg = tkinter.messagebox.showinfo( "", str(r['hoeveelheid']) + ","
+                                                 + str(r['kleur'])       + ","
+                                                 + str(r['vorm'])        + ","
+                                                 + str(r['vulling'])         )
             # call game logic
         else:
             msg = tkinter.messagebox.showinfo("Select 2",
@@ -119,7 +120,7 @@ class TkGUI():
 
     def countSets(self):
         msg = tkinter.messagebox.showinfo("Sets:",
-                                          str(self.game.countSets(self.game.field)) )
+                                          str(self.game.telSets(self.game.field)) )
 
 ###########
 

@@ -1,16 +1,11 @@
-
-
 import random
-from card import SetCard
+from setkaart import SetKaart
 
 class Deck():
     """
-    A Deck consists of 81 unique Card objects. When a card is drawn it should be
-    passed to the PlayingField and is removed from the Deck.
+    Een Deck bestaat uit 81 unique SetKaart-objecten. Als een kaart getrokken
+    wordt, wordt deze overgebracht naar het speelveld.
     """
-
-    #number 0, 1, 2
-
 
     def __init__(self):
         """
@@ -21,18 +16,15 @@ class Deck():
 
     def populateDeck(self):
         """
-        Normal populateDeck makes a full sorted Deck according to
-        number < symbol < shading < color
+        Maakt een nieuw Deck object aan waarin alle mogelijke kaarten voorkomen
+        door een loop te maken over de hoeveelheid, kleur, vorm en vulling.
         """
 
-        #this way explicitly defines the iteration...not pretty
-        for num in [0,1,2]:
-            for sym in [0,1,2]:
-                for sha in [0,1,2]:
-                    for col in [0,1,2]:
-                        self.addCard( SetCard(num,sym,sha,col) )
-#                        print('added card')
-#                        self.deck.append( Card(num,sym,sha,col) )
+        for hoeveelheid in [1, 2, 3]:
+            for kleur in [1, 2, 3]:
+                for vorm in [1, 2, 3]:
+                    for vulling in [1, 2, 3]:
+                        self.addCard( SetKaart(hoeveelheid, kleur, vorm, vulling) )
 
 
     def shuffleDeck(self):
@@ -54,7 +46,6 @@ class Deck():
         cardnum = 1
         for card in self.deck:
             print (card)
-#            print(cardnum, ':', card)
             cardnum = cardnum + 1
 
 
