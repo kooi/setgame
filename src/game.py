@@ -7,7 +7,7 @@ class Game():
     """
 
     def __init__(self, deck=None, field=None):
-        self.score = 0       # number of sets made
+        self.score = 0
         self.deck  = deck
         self.field = field
 
@@ -48,14 +48,14 @@ class Game():
         """
         Returnt de waarde True als kaart1, kaart2 en kaart3 een set vormen en anders returnt het de waarde False.
         """
-        if self.deelSet( kaart1['hoeveelheid'], kaart2['hoeveelheid'], kaart3['hoeveelheid'] ):
+#        if self.deelSet( kaart1['hoeveelheid'], kaart2['hoeveelheid'], kaart3['hoeveelheid'] ):
+        if self.deelSet( kaart1.hoeveelheid, kaart2.hoeveelheid, kaart3.hoeveelheid ):
             if self.deelSet( kaart1['kleur'], kaart2['kleur'], kaart3['kleur'] ):
                 if self.deelSet( kaart1['vorm'], kaart2['vorm'], kaart3['vorm'] ):
                     if self.deelSet( kaart1['vulling'], kaart2['vulling'], kaart3['vulling'] ):
                         return True
         else:
             return False
-###        return False
 
 
     def maakSet(self, kaart1, kaart2):

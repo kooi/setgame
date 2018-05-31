@@ -8,7 +8,7 @@ class TestGame(unittest.TestCase):
 ############### Vul hieronder je testsets op de corrcete plek in ###############
 ################################################################################
 
-
+    
     kaartA = SetKaart(2, 3, 3, 3)
     kaartB = SetKaart(3, 3, 2, 2)
     kaartC = SetKaart(1, 1, 2, 2)
