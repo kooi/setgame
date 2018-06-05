@@ -114,7 +114,7 @@ class CardCanvas(tkinter.Canvas):
     def renderCard(self):
         """
         Laat tina de correcte tekening maken op de kaart. Maakt gebruik van
-        de hulpfuncties tekenOvaal, tekenRuit, tekenGolf,
+        de hulpfuncties tekenOvaal(), tekenRuit(), tekenGolf()
         """
         randkleuren = ['red', 'purple', 'green']
         vulkleuren = [  ['red',    'pink',          'white'],
@@ -146,7 +146,7 @@ class CardCanvas(tkinter.Canvas):
                         self.tekenRuit(tina,
                                         randkleuren[self.setcard.kleur-1],
                                         vulkleuren[self.setcard.kleur-1][self.setcard.vulling-1] )
-                elif self.setcard.vorm == 3: #ovaal
+                elif self.setcard.vorm == 3: #golf
                         self.tekenGolf(tina,
                                         randkleuren[self.setcard.kleur-1],
                                         vulkleuren[self.setcard.kleur-1][self.setcard.vulling-1] )
