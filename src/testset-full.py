@@ -15,29 +15,23 @@ class TestGame(unittest.TestCase):
         ( SetKaart(3, 3, 2, 2), SetKaart(1, 1, 2, 2), SetKaart(2, 2, 2, 2) ),
         ( SetKaart(1, 1, 3, 2), SetKaart(2, 2, 2, 2), SetKaart(3, 3, 1, 2) ),
         ( SetKaart(3, 1, 1, 3), SetKaart(3, 2, 1, 1), SetKaart(3, 3, 1, 2) ),
-        ( SetKaart(2, 2, 2, 2), SetKaart(1, 2, 2, 3), SetKaart(3, 2, 2, 1) ),
-        ( SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ) ),
-        ( SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ) ),
-        ( SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ) ),
-        ( SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ) )
+        ( SetKaart(2, 2, 2, 2), SetKaart(1, 2, 2, 3), SetKaart(3, 2, 2, 1) )
     ]
 
     incorrecte_sets = [
-        ( SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ) ),
-        ( SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ) ),
-        ( SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ) ),
-        ( SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ) )
+        ( SetKaart(2, 3, 3, 3), SetKaart(3, 3, 2, 2), SetKaart(1, 1, 2, 2) ),
+        ( SetKaart(1, 1, 3, 2), SetKaart(1, 2, 2, 2), SetKaart(3, 1, 2, 1) ),
+        ( SetKaart(3, 1, 1, 3), SetKaart(3, 2, 1, 1), SetKaart(2, 2, 2, 2) ),
+        ( SetKaart(1, 1, 3, 2), SetKaart(1, 1, 3, 2), SetKaart(3, 3, 1, 2) ),
+        ( SetKaart(3, 1, 1, 3), SetKaart(3, 1, 1, 3), SetKaart(3, 3, 1, 2) ),
+        ( SetKaart(2, 2, 2, 2), SetKaart(2, 2, 2, 2), SetKaart(3, 2, 2, 1) )
     ]
 
     onvolledige_sets = [
-        ( SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ) ),
-        ( SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ) ),
-        ( SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ) ),
-        ( SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ) ),
-        ( SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ) ),
-        ( SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ) ),
-        ( SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ) ),
-        ( SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ), SetKaart( ,  ,  ,  ) )
+        ( SetKaart(2, 3, 3, 3), SetKaart(3, 3, 2, 2), SetKaart(1, 3, 1, 1) ),
+        ( SetKaart(1, 1, 2, 2), SetKaart(1, 1, 3, 2), SetKaart(1, 1, 1, 2) ),
+        ( SetKaart(1, 2, 2, 2), SetKaart(3, 1, 2, 1), SetKaart(2, 3, 2, 3) ),
+        ( SetKaart(3, 1, 1, 3), SetKaart(3, 2, 1, 1), SetKaart(3, 3, 1, 2) )
     ]
 
 
