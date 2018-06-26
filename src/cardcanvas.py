@@ -68,9 +68,9 @@ class CardCanvas(tkinter.Canvas):
         tina.fillcolor(vulkleur)
         tina.begin_fill()
         tina.forward(30)
-        tina.circle(30, 180)
+        tina.circle(25, 180)
         tina.forward(60)
-        tina.circle(30, 180)
+        tina.circle(25, 180)
         tina.forward(30)
         tina.end_fill()
 
@@ -80,11 +80,13 @@ class CardCanvas(tkinter.Canvas):
         tina.pensize(3)
         tina.pencolor(randkleur)
         tina.fillcolor(vulkleur)
-        tina.begin_fill()
+        tina.penup()
         tina.left(90)
         tina.forward(15)
         tina.right(90)
         tina.forward(60)
+        tina.pendown()
+        tina.begin_fill()
         tina.left(150)
         tina.forward(60)
         tina.left(60)
@@ -103,11 +105,16 @@ class CardCanvas(tkinter.Canvas):
         tina.pencolor(randkleur)
         tina.fillcolor(vulkleur)
         tina.begin_fill()
-        tina.circle(45, 90)
-        tina.circle(15, 90)
+        tina.forward(15)
+        tina.circle(35, 90)
+        tina.circle(20, 60)
+        tina.circle(10, 60)
+        tina.circle(-30, 30)
         tina.forward(30)
-        tina.circle(45, 90)
-        tina.circle(15, 90)
+        tina.circle(35, 90)
+        tina.circle(20, 60)
+        tina.circle(10, 60)
+        tina.circle(-30, 30)
         tina.forward(30)
         tina.end_fill()
 
@@ -137,7 +144,9 @@ class CardCanvas(tkinter.Canvas):
                 xy = [ [0, -30] ]
 
             for pos in xy:
+                tina.penup()
                 tina.goto(pos[0],pos[1])
+                tina.pendown()
 
                 if self.setcard.vorm == 1: #ovaal
                         self.tekenOvaal(tina,
