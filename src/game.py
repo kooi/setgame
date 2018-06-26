@@ -44,6 +44,15 @@ class Game():
             return False
 
 
+    def deelSet(self, a, b, c):
+        if a == b and b == c:
+            return True
+        elif a + b + c == 6:
+            return True
+        else:
+            return False
+
+
     def isSet(self, kaart1, kaart2, kaart3):
         """
         Returnt de waarde True als kaart1, kaart2 en kaart3 een set vormen en anders returnt het de waarde False.
@@ -69,9 +78,8 @@ class Game():
                 kaart2.vorm = 2
                 kaart2.vulling = 2
         """
-        hv = 0
-        kl = 0
-        vo = 0
-        vu = 0
-
+        hv = 1
+        kl = 1
+        vo = 1
+        vu = 1
         return SetKaart(hv, kl, vo, vu)

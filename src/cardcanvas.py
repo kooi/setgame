@@ -19,15 +19,16 @@ class CardCanvas(tkinter.Canvas):
         self.setcard = setcard
         super().__init__(parent, width=self.sizex, height=self.sizey, bg=self.bgcolor, confine=True, name=name)
         self.myTurtle = turtle.RawTurtle(self)
+        self.myTurtle.shape("turtle")
+        self.myTurtle.speed(0)
 
 
     def toggleSelect(self):
         if self.isSelected == True:
-            print( self.delete( self.selectedId ) )
+            self.delete( self.selectedId )
             self.isSelected = False
         else: # self.isSelected == False:
             self.selectedId = self.drawBorder()
-            print(self.selectedId)
             self.isSelected = True
 
 

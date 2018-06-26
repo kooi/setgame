@@ -2,7 +2,7 @@
 
 class Field():
     """
-    Keeps track of the playing field cards. Implements the set! functions.
+    Keeps track of the playing field cards.
     """
 
 
@@ -18,7 +18,6 @@ class Field():
         self.field[num] = None
 
 
-#####################
     def __getitem__(self,num):
         return self.field[num]
 
