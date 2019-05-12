@@ -6,7 +6,7 @@ class SetKaart():
     Van elke eigenschap zijn er 3 varianten.
     In plaats van tekst zouden we dus het getal 1, 2 of 3 kunnen gebruiken om een eigenschap te onthouden.
     Een hele kaart wordt dan slechts 4 getallen 1, 2 of 3.
-      hoeveelheid: één   (=1), twee    (=2), drie  (=3)
+      hoeveelheid: een   (=1), twee    (=2), drie  (=3)
       kleur:       rood  (=1), paars   (=2), groen (=3)
       vorm:        ovaal (=1), ruit    (=2), golf  (=3)
       vulling:     vol   (=1), halfvol (=2), leeg  (=3)
