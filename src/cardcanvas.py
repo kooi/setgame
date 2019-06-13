@@ -2,9 +2,12 @@ import tkinter
 import turtle
 from setkaart import SetKaart
 
+#TODO: implement settings...
 
 class CardCanvas(tkinter.Canvas):
-
+    """
+    Tkinter Canvas for rendering set cards using python turtle.
+    """
 
     def __init__(self, parent, number, name, setcard):
         self.sizex  = 180 #

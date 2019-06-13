@@ -1,5 +1,3 @@
-
-
 class Field():
     """
     Keeps track of the playing field cards.

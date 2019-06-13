@@ -2,8 +2,16 @@ import unittest
 from game import Game
 from setkaart import SetKaart
 
-class TestGame(unittest.TestCase):
+# importeer hier de gewijzigde versies van game.isSet() en game.maakSet()
+# uit game_patch.py
+# comment deze weg om de originele versie te gebruiken
+import game_patch
 
+class TestGame(unittest.TestCase):
+    """
+    Unit test data om de werking van isSet() en maakSet() te testen.
+    Uitvoeren met: python3 testset_klein.py
+    """
 ################################################################################
 ############### Vul hieronder je testsets op de corrcete plek in ###############
 ################################################################################

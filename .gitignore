@@ -41,4 +41,9 @@ __pycache__
 
 # Ignored files #
 #################
-leerlingdata
+.misc
+
+#ignore until clean build
+docs/*
+tests/*
+setgame/res/*

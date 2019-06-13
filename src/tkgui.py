@@ -1,11 +1,14 @@
 import tkinter
-from tkinter import *
+from tkinter import * #why....? for constants --> cleanup
 from cardcanvas import CardCanvas
 from game import Game
 from deck import Deck
 from field import Field
 from setkaart import SetKaart
 
+# TODO: cleanup...
+# TODO: extension for more cards than 12...
+# TODO: electron/eel backend (can eel do live update of source?)
 
 class TkGUI():
 
@@ -16,8 +19,9 @@ class TkGUI():
         self.game = game
         self.root = tkinter.Tk()
         self.root.title('SetGame')
+        # logo geeft gedonder
         #self.root.wm_iconbitmap(bitmap="@set-logo.xbm")
-        self.root.tk.call('wm','iconphoto',self.root._w,PhotoImage(file="set-logo.png"))
+        #self.root.tk.call('wm','iconphoto',self.root._w,tkinter.PhotoImage(file="res/set-logo.png"))
 
         # left: fieldFrame
         self.fieldFrame = tkinter.Frame(self.root)
@@ -55,7 +59,7 @@ class TkGUI():
         self.cb1 = tkinter.Checkbutton(self.sideFrame, text="auto",variable=self.autoTest,onvalue=True,offvalue=False).grid(row=1,column=1,sticky=W)
         self.gb2 = tkinter.Button(self.sideFrame, text = "maakSet()", command = self.makeSet   ).grid(row=2,column=0,sticky=E)
         self.cb2 = tkinter.Checkbutton(self.sideFrame, text="auto",variable=self.autoMake,onvalue=True,offvalue=False).grid(row=2,column=1,sticky=W)
-        self.gb3 = tkinter.Button(self.sideFrame, text = "telSets()", command = self.countSets ).grid(row=3,column=0,sticky=E)
+#        self.gb3 = tkinter.Button(self.sideFrame, text = "telSets()", command = self.countSets ).grid(row=3,column=0,sticky=E)
         self.sct = tkinter.Label(self.sideFrame,text="Geselecteerde kaarten:",font='bold').grid(row=4,column=0,columnspan=2)
         self.l1  = tkinter.Label(self.sideFrame,textvariable=self.selectedCardText).grid(row=5,column=0,columnspan=2)
         self.rqc = tkinter.Label(self.sideFrame,text="Benodigde kaart:",font='bold').grid(row=6,column=0,columnspan=2)
