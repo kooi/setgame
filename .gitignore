@@ -47,3 +47,6 @@ __pycache__
 docs/*
 tests/*
 setgame/res/*
+build/*
+dist/*
+*.spec
