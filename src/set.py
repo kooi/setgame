@@ -9,9 +9,10 @@ from field import Field
 from tkgui import TkGUI
 
 # importeer hier de gewijzigde versies van game.isSet() en game.maakSet()
-# uit game_patch.py
-# comment deze weg om de originele versie te gebruiken
+# uit game_patch.py comment deze weg om de originele versie te gebruiken
 import game_patch
+Game.isSet = game_patch.isSet
+Game.maakSet = game_patch.maakSet
 
 if __name__ == '__main__':
 

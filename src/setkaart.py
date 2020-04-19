@@ -23,25 +23,21 @@ class SetKaart():
         self.vorm = vorm
         self.vulling = vulling
 
-
     def __str__(self):
         sb = []
         for key in self.__dict__:
-            sb.append('{key}={value}'.format(key=key, value=self.__dict__[key]))
+            sb.append('{key}={value}'.format(
+                key=key, value=self.__dict__[key]))
         return ', '.join(sb)
 
-
-    def __setitem__(self, key,value):
+    def __setitem__(self, key, value):
         self.__dict__[key] = value
-
 
     def __getitem__(self, key):
         return self.__dict__[key]
 
-
     def __len__(self):
         return len(self.__dict__)
-
 
     def __eq__(self, other):
         if isinstance(self, other.__class__):
@@ -49,10 +45,8 @@ class SetKaart():
         else:
             return False
 
-
-    def __setattr__(self, key,value):
+    def __setattr__(self, key, value):
         self.__dict__[key] = value
-
 
     def __repr__(self):
         sb = [

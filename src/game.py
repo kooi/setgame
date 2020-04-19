@@ -18,7 +18,6 @@ class Game():
         self.deck = deck
         self.field = field
 
-
     def telSets(self, field):
         """
         Telt het aantal sets op het veld door simpelweg alle combinaties
@@ -38,7 +37,6 @@ class Game():
                             count += 1
         return count / 6
 
-
     def deelSet(self, a, b, c):
         if a == b and b == c:
             return True
@@ -46,7 +44,6 @@ class Game():
             return True
         else:
             return False
-
 
     def isSet(self, kaart1, kaart2, kaart3):
         """
@@ -60,14 +57,13 @@ class Game():
         :param kaart3: De derde SetKaart om te vergelijken.
         :type kaart3: SetKaart
         """
-        if self.deelSet( kaart1.hoeveelheid, kaart2.hoeveelheid, kaart3.hoeveelheid ):
-            if self.deelSet( kaart1['kleur'], kaart2['kleur'], kaart3['kleur'] ):
-                if self.deelSet( kaart1['vorm'], kaart2['vorm'], kaart3['vorm'] ):
-                    if self.deelSet( kaart1['vulling'], kaart2['vulling'], kaart3['vulling'] ):
+        if self.deelSet(kaart1.hoeveelheid, kaart2.hoeveelheid, kaart3.hoeveelheid):
+            if self.deelSet(kaart1['kleur'], kaart2['kleur'], kaart3['kleur']):
+                if self.deelSet(kaart1['vorm'], kaart2['vorm'], kaart3['vorm']):
+                    if self.deelSet(kaart1['vulling'], kaart2['vulling'], kaart3['vulling']):
                         return True
         else:
             return False
-
 
     def maakSet(self, kaart1, kaart2):
         """
@@ -87,9 +83,13 @@ class Game():
         """
 
         # using inline conditionals for legibility
-        hv = kaart1['hoeveelheid'] if kaart1['hoeveelheid'] == kaart2['hoeveelheid']  else (6-kaart1['hoeveelheid'] )-kaart2['hoeveelheid']
-        kl = kaart1['kleur']       if kaart1['kleur']       == kaart2['kleur']        else (6-kaart1['kleur']       )-kaart2['kleur']
-        vo = kaart1['vorm']        if kaart1['vorm']        == kaart2['vorm']         else (6-kaart1['vorm']        )-kaart2['vorm']
-        vu = kaart1['vulling']     if kaart1['vulling']     == kaart2['vulling']      else (6-kaart1['vulling']     )-kaart2['vulling']
+        hv = kaart1['hoeveelheid'] if kaart1['hoeveelheid'] == kaart2['hoeveelheid'] else (
+            6 - kaart1['hoeveelheid']) - kaart2['hoeveelheid']
+        kl = kaart1['kleur'] if kaart1['kleur'] == kaart2['kleur'] else (
+            6 - kaart1['kleur']) - kaart2['kleur']
+        vo = kaart1['vorm'] if kaart1['vorm'] == kaart2['vorm'] else (
+            6 - kaart1['vorm']) - kaart2['vorm']
+        vu = kaart1['vulling'] if kaart1['vulling'] == kaart2['vulling'] else (
+            6 - kaart1['vulling']) - kaart2['vulling']
 
         return SetKaart(hv, kl, vo, vu)

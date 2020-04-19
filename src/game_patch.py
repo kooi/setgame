@@ -1,5 +1,5 @@
 from setkaart import SetKaart
-from game import Game
+
 
 def isSet(self, kaart1, kaart2, kaart3):
     """
@@ -7,6 +7,7 @@ def isSet(self, kaart1, kaart2, kaart3):
     Om mee te beginnen zal het elke 3 kaarten als niet een set aanduiden (met return False).
     """
     return True
+
 
 def maakSet(self, kaart1, kaart2):
     """
@@ -30,7 +31,3 @@ def maakSet(self, kaart1, kaart2):
     vo = 2
     vu = 2
     return SetKaart(hv, kl, vo, vu)
-
-# apply patch
-Game.isSet = isSet
-Game.maakSet = maakSet

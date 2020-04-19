@@ -1,6 +1,7 @@
 import random
 from setkaart import SetKaart
 
+
 class Deck():
     """
     Een Deck bestaat uit 81 unique SetKaart-objecten. Als een kaart getrokken
@@ -13,7 +14,6 @@ class Deck():
         """
         self.deck = []
 
-
     def populateDeck(self):
         """
         Maakt een nieuw Deck object aan waarin alle mogelijke kaarten voorkomen
@@ -24,20 +24,17 @@ class Deck():
             for kleur in [1, 2, 3]:
                 for vorm in [1, 2, 3]:
                     for vulling in [1, 2, 3]:
-                        self.addCard( SetKaart(hoeveelheid, kleur, vorm, vulling) )
-
+                        self.addCard(
+                            SetKaart(hoeveelheid, kleur, vorm, vulling))
 
     def shuffleDeck(self):
         random.shuffle(self.deck)
 
-
     def addCard(self, card):
         self.deck.append(card)
 
-
     def drawCard(self):
         return self.deck.pop()
-
 
     def printDeck(self):
         """
@@ -45,9 +42,8 @@ class Deck():
         """
         cardnum = 1
         for card in self.deck:
-            print (card)
+            print(card)
             cardnum = cardnum + 1
-
 
     def __getitem__(self, key):
         return self.deck[key]
