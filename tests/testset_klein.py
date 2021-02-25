@@ -1,6 +1,6 @@
 import unittest
-from game import Game
-from setkaart import SetKaart
+from ...setgame.game import Game
+from ...setgame.setkaart import SetKaart
 
 # importeer hier de gewijzigde versies van game.isSet() en game.maakSet()
 # uit game_patch.py

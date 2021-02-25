@@ -1,10 +1,10 @@
 import tkinter
 from tkinter import * #why....? for constants --> cleanup
-from cardcanvas import CardCanvas
-from game import Game
-from deck import Deck
-from field import Field
-from setkaart import SetKaart
+from .cardcanvas import CardCanvas
+from .game import Game
+from .deck import Deck
+from .field import Field
+from .setkaart import SetKaart
 
 # TODO: cleanup...
 # TODO: extension for more cards than 12...

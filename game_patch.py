@@ -1,20 +1,12 @@
-from setkaart import SetKaart
-from game import Game
+from setgame.setkaart import SetKaart
+from setgame.game import Game
 
 def isSet(self, kaart1, kaart2, kaart3):
     """
     Returnt de waarde True als kaart1, kaart2 en kaart3 een set vormen en anders returnt het de waarde False.
     Om mee te beginnen zal het elke 3 kaarten als niet een set aanduiden (met return False).
-     1 % 3 = 1
-    10 % 3 = 1
-     9 % 3 = 0
     """
-    if (kaart1.hoeveelheid + kaart2.hoeveelheid + kaart3.hoeveelheid) % 3 == 0:
-        if (kaart1.kleur + kaart2.kleur + kaart3.kleur) % 3 == 0:
-            if (kaart1.vorm + kaart2.vorm + kaart3.vorm) % 3 == 0:
-                if (kaart1.vulling + kaart2.vulling + kaart3.vulling) % 3 == 0:
-                    return True
-    return False
+    return True
 
 def maakSet(self, kaart1, kaart2):
     """

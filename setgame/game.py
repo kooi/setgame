@@ -4,8 +4,8 @@ game.py
 Basismodule voor de logica van het spel Set.
 """
 
-from setkaart import SetKaart
-from deck import Deck
+from .setkaart import SetKaart
+from .deck import Deck
 
 
 class Game():

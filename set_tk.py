@@ -2,11 +2,11 @@
 Tkinter versie van het spel Set.
 """
 
-from setkaart import SetKaart
-from deck import Deck
-from game import Game
-from field import Field
-from tkgui import TkGUI
+from setgame.setkaart import SetKaart
+from setgame.deck import Deck
+from setgame.game import Game
+from setgame.field import Field
+from setgame.tkgui import TkGUI
 
 # importeer hier de gewijzigde versies van game.isSet() en game.maakSet()
 # uit game_patch.py

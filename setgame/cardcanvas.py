@@ -1,6 +1,6 @@
 import tkinter
 import turtle
-from setkaart import SetKaart
+from .setkaart import SetKaart
 
 #TODO: implement settings...
 
