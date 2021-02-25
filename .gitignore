@@ -45,7 +45,7 @@ __pycache__
 
 #ignore until clean build
 docs/*
-tests/*
+#tests/*
 setgame/res/*
 build/*
 dist/*

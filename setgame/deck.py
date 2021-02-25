@@ -1,5 +1,5 @@
 import random
-from setkaart import SetKaart
+from .setkaart import SetKaart
 
 class Deck():
     """
