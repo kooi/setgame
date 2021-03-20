@@ -50,3 +50,4 @@ setgame/res/*
 build/*
 dist/*
 *.spec
+temp/*
