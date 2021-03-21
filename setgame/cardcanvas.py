@@ -22,17 +22,17 @@ class CardCanvas():
         # super().__init__(parent, width=self.sizex, height=self.sizey, bg=self.bgcolor, confine=True, name=name)
         # self.myTurtle = turtle.RawTurtle(self)
         turtle.set_defaults(
-            canvwidth = self.sizex,
-            canvheight = self.sizey,
-            turtle_canvas_wrapper = document["mycanvas"]
+            canvwidth=self.sizex,
+            canvheight=self.sizey,
+            turtle_canvas_wrapper=document["canvas"+str(number)]
         )
         self.myTurtle = turtle.Turtle()
         self.myTurtle.shape("turtle")
         self.myTurtle.speed(0)
-        for c in ['red', 'yellow', 'blue', 'black']:
-            self.myTurtle.color(c)
-            self.myTurtle.forward(100)
-            self.myTurtle.left(90)
+        # for c in ['red', 'yellow', 'blue', 'black']:
+        #     self.myTurtle.color(c)
+        #     self.myTurtle.forward(100)
+        #     self.myTurtle.left(90)
         turtle.done()
         print("CardCanvas.__init__() completed")
 
@@ -61,9 +61,22 @@ class CardCanvas():
                 + str(self.setcard.vulling))
 
     def testDraw(self):
-        tina = self.myTurtle
-        tina.forward(10)
-        tina.right(10)
+        # turtle.set_defaults(
+        #     canvwidth=self.sizex,
+        #     canvheight=self.sizey,
+        #     pencolor="black",
+        #     fillcolor="pink",
+        #     turtle_canvas_wrapper=document["canvas"+str(self.number)]
+        # )
+        # self.myTurtle = turtle.Turtle()
+        # self.myTurtle.shape("turtle")
+        # self.myTurtle.speed(0)
+        # tina = self.myTurtle
+        # tina.fillcolor("green")
+        # tina.forward(10)
+        # tina.right(10)
+        # turtle.done()
+        print(self.myTurtle)
 
     def clearCanvas(self):
         tina = self.myTurtle

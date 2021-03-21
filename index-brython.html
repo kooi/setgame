@@ -1,8 +1,20 @@
 <html>
 
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/brython@3.9.0/brython.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/brython@3.9.0/brython_stdlib.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/brython@3.9.0/brython.min.js"></script> -->
+    <script src="brython.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/brython@3.9.0/brython_stdlib.js"></script> -->
+    <script src="brython_stdlib.js"></script>
+
+    <style>
+        .cardcanvas{
+            border: solid;
+            width: 200px;
+            height: 260px;
+            float: left;
+        }
+    </style>
+
 </head>
 
 <body onload="brython()">
@@ -16,11 +28,22 @@
         <button type="button" onclick="runit()">Run</button>
     </form> -->
 
-    <h3>GUI</h3>
     <div id="SetGUI">
-        <pre id="output"></pre>
+        <h3>GUI</h3>
+        <!-- <pre id="output"></pre> -->
         <!-- If you want turtle graphics include a canvas -->
-        <div id="mycanvas"></div>
+        <div id="canvas0" class="cardcanvas"></div>
+        <div id="canvas1" class="cardcanvas"></div>
+        <div id="canvas2" class="cardcanvas"></div>
+        <div id="canvas3" class="cardcanvas"></div>
+        <div id="canvas4" class="cardcanvas"></div>
+        <div id="canvas5" class="cardcanvas"></div>
+        <div id="canvas6" class="cardcanvas"></div>
+        <div id="canvas7" class="cardcanvas"></div>
+        <div id="canvas8" class="cardcanvas"></div>
+        <div id="canvas9" class="cardcanvas"></div>
+        <div id="canvas10" class="cardcanvas"></div>
+        <div id="canvas11" class="cardcanvas"></div>
     </div>
 
 </body>
