@@ -1,6 +1,6 @@
-import turtle
+import brython_turtle as turtle
 from .setkaart import SetKaart
-from browser import document, html
+from browser import document, html, timer
 
 
 class CardCanvas():
@@ -19,23 +19,26 @@ class CardCanvas():
         self.name = name
         self.number = number
         self.setcard = setcard
+        self.initTurtleCanvas()
+        # timer.set_timeout(self.renderCard, 1000)
+        self.renderCard()
+        # self.testDraw()
+        # timer.set_timeout(turtle.done, 50)
+        turtle.done()
+        # print("CardCanvas.__init__() completed")
+
+    def initTurtleCanvas(self):
+        turtle.set_defaults(
+            canvwidth=self.sizex,
+            canvheight=self.sizey,
+            pencolor="black",
+            fillcolor="pink",
+            turtle_canvas_wrapper=document["canvas"+str(self.number)]
+        )
         self.myTurtle = turtle.Turtle()
-        # super().__init__(parent, width=self.sizex, height=self.sizey, bg=self.bgcolor, confine=True, name=name)
-        # self.myTurtle = turtle.RawTurtle(self)
-        # turtle.set_defaults(
-        #     canvwidth=self.sizex,
-        #     canvheight=self.sizey,
-        #     turtle_canvas_wrapper=document["canvas"+str(number)]
-        # )
-        # self.myTurtle = turtle.Turtle()
-        # self.myTurtle.shape("turtle")
-        # self.myTurtle.speed(0)
-        # for c in ['red', 'yellow', 'blue', 'black']:
-        #     self.myTurtle.color(c)
-        #     self.myTurtle.forward(100)
-        #     self.myTurtle.left(90)
-        # turtle.done()
-        print("CardCanvas.__init__() completed")
+        self.myTurtle.shape("turtle")
+        self.myTurtle.speed(1)
+        self.myTurtle.showturtle()
 
     def toggleSelect(self):
         if self.isSelected == True:
@@ -145,19 +148,9 @@ class CardCanvas():
         """
         randkleuren = ['red', 'purple', 'green']
         vulkleuren = [['red',    'pink',          'white'],
-                      ['purple', 'MediumPurple1', 'white'],
-                      ['green',  'light green',   'white']]
+                      ['purple', 'MediumPurple', 'white'],
+                      ['green',  'LightGreen',   'white']]
         xy = []
-        turtle.set_defaults(
-            canvwidth=self.sizex,
-            canvheight=self.sizey,
-            pencolor="black",
-            fillcolor="pink",
-            turtle_canvas_wrapper=document["canvas"+str(self.number)]
-        )
-        self.myTurtle = turtle.Turtle()
-        self.myTurtle.shape("turtle")
-        self.myTurtle.speed(0)
         tina = self.myTurtle
         if self.setcard == None:
             self.drawLabel()
@@ -189,4 +182,3 @@ class CardCanvas():
                     self.tekenGolf(tina,
                                    randkleuren[self.setcard.kleur-1],
                                    vulkleuren[self.setcard.kleur-1][self.setcard.vulling-1])
-        turtle.done()
