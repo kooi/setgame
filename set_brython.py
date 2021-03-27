@@ -19,17 +19,15 @@ if __name__ == '__main__':
     myGame = Game(myDeck, myField)
 
     myDeck.populateDeck()
-    myDeck.shuffleDeck()
+    # myDeck.shuffleDeck()
 
     for f in range(12):
         myField.addCard(myDeck.drawCard())
 
     # brython version
     myGUI = BryUI(myGame, 'SetGUI')
-    # myGUI.renderAll()
-    # myGUI.run() --> callbacks
 
     # experimental: brython
     # experimental: pysimplegui
     # experimental: CodeSkulptor3/simplegui
-    print(myDeck)
+

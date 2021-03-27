@@ -9,10 +9,21 @@
     <style>
         .cardcanvas{
             border: solid;
-            /* width: 200px; */
-            /* height: 260px; */
-            float: left;
+            border-color: lightskyblue;
+            width: 180px;
+            height: 240px;
+            /* float: left; */
         }
+
+        .selected{
+            border: solid;
+            border-color: blue;
+        }
+
+        .sideFrame {
+            vertical-align: top;
+        }
+
     </style>
 
 </head>
@@ -29,21 +40,50 @@
     </form> -->
 
     <div id="SetGUI">
-        <h3>GUI</h3>
-        <!-- <pre id="output"></pre> -->
-        <!-- If you want turtle graphics include a canvas -->
-        <div id="canvas0" class="cardcanvas"></div>
-        <div id="canvas1" class="cardcanvas"></div>
-        <div id="canvas2" class="cardcanvas"></div>
-        <div id="canvas3" class="cardcanvas"></div>
-        <div id="canvas4" class="cardcanvas"></div>
-        <div id="canvas5" class="cardcanvas"></div>
-        <div id="canvas6" class="cardcanvas"></div>
-        <div id="canvas7" class="cardcanvas"></div>
-        <div id="canvas8" class="cardcanvas"></div>
-        <div id="canvas9" class="cardcanvas"></div>
-        <div id="canvas10" class="cardcanvas"></div>
-        <div id="canvas11" class="cardcanvas"></div>
+        <!-- <h3>GUI</h3> -->
+        <table>
+            <tr>
+                <td>
+
+                    <h4>Field</h4>
+                    <table>
+                        <tr>
+                            <td><div id="canvas0" class="cardcanvas"></div></td>
+                            <td><div id="canvas1" class="cardcanvas"></div></td>
+                            <td><div id="canvas2" class="cardcanvas"></div></td>
+                            <td><div id="canvas3" class="cardcanvas"></div></td>
+                        </tr>
+                        <tr>
+                            <td><div id="canvas4" class="cardcanvas"></div></td>
+                            <td><div id="canvas5" class="cardcanvas"></div></td>
+                            <td><div id="canvas6" class="cardcanvas"></div></td>
+                            <td><div id="canvas7" class="cardcanvas"></div></td>
+                        </tr>
+                        <tr>
+                            <td><div id="canvas8" class="cardcanvas"></div></td>
+                            <td><div id="canvas9" class="cardcanvas"></div></td>
+                            <td><div id="canvas10" class="cardcanvas"></div></td>
+                            <td><div id="canvas11" class="cardcanvas"></div></td>
+                        </tr>
+                    </table>
+                    
+                </td>
+                <td class="sideFrame">
+                    <h4>SideFrame</h4>
+                    <button id="button-isset">isSet()</button>
+                    <input type='checkbox'>auto-isset</input><br>
+
+                    <button>maakSet()</button>
+                    <input type='checkbox'>auto-maakset</input>
+
+                    <h5>Geselecteerde Kaarten</h5>
+                    <div id='selected_cards'></div>
+
+                    <h5>Benodigde Kaart</h5>
+                    <div id='required_card'></div>
+                </td>
+            </tr>
+        </table>
     </div>
 
 </body>
