@@ -4,11 +4,12 @@
     <!-- <script src="https://cdn.jsdelivr.net/npm/brython@3.9.0/brython.min.js"></script> -->
     <script src="lib/brython.min.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/brython@3.9.0/brython_stdlib.js"></script> -->
-    <script src="lib/brython_stdlib.js"></script>
+    <script src="lib/brython_stdlib.js" async></script>
 
     <script src="lib/codemirror.js"></script>
     <link rel="stylesheet" href="lib/codemirror.css">
     <script src="lib/cm_mode_python.js"></script>
+    <script src="lib/cm_addon_autorefresh.js"></script>
 
 
     <style>
@@ -77,9 +78,14 @@
             border-bottom-color: transparent;
         }
 
-        .code-area {
+        /* .code-area {
+            height: 100%;
             width: 768px;
+        } */
+        .CodeMirror {
+            height: 600px;
         }
+
     </style>
 
 </head>
@@ -229,10 +235,18 @@ Game.maakSet = maakSet
         myTextArea = document.getElementById("code-input")
         var myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
             mode: "python",
+            theme: "default",
             indentWithTabs: false,
             tabSize: 4,
             lineNumbers: true,
+            autoRefresh: true,
+            height: "600px",
+            // autoFocus: true,
+            // viewportMargin: 1000,
         });
+        // setTimeout(function() {
+        //     myCodeMirror.refresh();
+        // },1);
     });
 </script>
 <script type="text/python" src="set_brython.py"></script>
