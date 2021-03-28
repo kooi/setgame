@@ -1,6 +1,6 @@
 import brython_turtle as turtle
 from .setkaart import SetKaart
-from browser import document, html, timer
+from browser import document, html
 
 
 class CardCanvas():
@@ -21,13 +21,10 @@ class CardCanvas():
         self.setcard = setcard
         self.element_id = "canvas"+str(self.number)
         self.initTurtleCanvas()
-        # timer.set_timeout(self.renderCard, 1000)
         self.renderCard()
-        # self.testDraw()
-        # timer.set_timeout(turtle.done, 50)
         turtle.done()
-        # print("CardCanvas.__init__() completed")
         document[self.element_id].bind('click', self.toggleSelect)
+
 
     def initTurtleCanvas(self):
         turtle.set_defaults(
@@ -42,47 +39,16 @@ class CardCanvas():
         self.myTurtle.speed(1)
         self.myTurtle.showturtle()
 
+
     def toggleSelect(self, event):
-        print('clicked', self.element_id)
+        print(event)
         if self.isSelected == True:
             self.isSelected = False
             document[self.element_id].attrs['class'] = 'cardcanvas'
-        else:  # self.isSelected == False:
+        else:
             self.isSelected = True
             document[self.element_id].attrs['class'] = 'cardcanvas selected'
 
-    # def drawLabel(self):
-    #     tina = self.myTurtle
-    #     if self.setcard == None:
-    #         tina.write(self.number)
-    #     else:
-    #         tina.write(
-    #             str(self.setcard.hoeveelheid) + ","
-    #             + str(self.setcard.kleur) + ","
-    #             + str(self.setcard.vorm) + ","
-    #             + str(self.setcard.vulling))
-
-    # def testDraw(self):
-    #     turtle.set_defaults(
-    #         canvwidth=self.sizex,
-    #         canvheight=self.sizey,
-    #         pencolor="black",
-    #         fillcolor="pink",
-    #         turtle_canvas_wrapper=document["canvas"+str(self.number)]
-    #     )
-    #     self.myTurtle = turtle.Turtle()
-    #     self.myTurtle.shape("turtle")
-    #     self.myTurtle.speed(0)
-    #     tina = self.myTurtle
-    #     tina.fillcolor("green")
-    #     tina.forward(10)
-    #     tina.right(10)
-    #     turtle.done()
-    #     print(self.myTurtle)
-
-    # def clearCanvas(self):
-    #     tina = self.myTurtle
-    #     tina.clear()
 
     def tekenOvaal(self, tina, randkleur, vulkleur):
         tina.speed(0)
@@ -96,6 +62,7 @@ class CardCanvas():
         tina.circle(25, 180)
         tina.forward(30)
         tina.end_fill()
+
 
     def tekenRuit(self, tina, randkleur, vulkleur):
         tina.speed(0)
@@ -120,6 +87,7 @@ class CardCanvas():
         tina.right(30)
         tina.end_fill()
 
+
     def tekenGolf(self, tina, randkleur, vulkleur):
         tina.speed(0)
         tina.pensize(3)
@@ -138,6 +106,7 @@ class CardCanvas():
         tina.circle(-30, 30)
         tina.forward(30)
         tina.end_fill()
+
 
     def renderCard(self):
         """

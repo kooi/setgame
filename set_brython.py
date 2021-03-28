@@ -25,9 +25,8 @@ if __name__ == '__main__':
         myField.addCard(myDeck.drawCard())
 
     # brython version
-    myGUI = BryUI(myGame, 'SetGUI')
+    myGUI = BryUI(myGame, 'setgui', 'ide')
 
-    # experimental: brython
-    # experimental: pysimplegui
     # experimental: CodeSkulptor3/simplegui
+    # experimental: CodeSkulptor3/custom-gui-toolkit
 

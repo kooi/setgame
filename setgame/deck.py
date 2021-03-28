@@ -1,6 +1,7 @@
 import random
 from .setkaart import SetKaart
 
+
 class Deck():
     """
     Een Deck bestaat uit 81 unique SetKaart-objecten. Als een kaart getrokken

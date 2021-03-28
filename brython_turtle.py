@@ -1,3 +1,6 @@
+# Revised to remove all animation. Animation rendering on multiple canvasses proved unreliable.
+#
+
 # A revised version of CPython's turtle module written for Brython
 #
 

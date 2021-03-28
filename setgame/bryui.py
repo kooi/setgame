@@ -1,49 +1,56 @@
-# import tkinter
-# from tkinter import * #why....? for constants --> cleanup
 from .cardcanvas import CardCanvas
 from .game import Game
 from .deck import Deck
 from .field import Field
 from .setkaart import SetKaart
-from browser import document, html
-from browser.widgets.dialog import InfoDialog
+from browser import document, html, alert
 
 
 class BryUI():
     ncards = 12
-    selectedCardText = None
     autoTest = None
     autoMake = None
     numSets = None
     requiredCardText = None
     requiredCard = None
     cards = []
+    selectedCards = []
 
-    def __init__(self, game, gui_div_id):
+    def __init__(self, game, gui_div_id, code_div_id):
         self.game = game
         self.root = document[gui_div_id]
+        self.code = document[code_div_id]
         self.getCards()
-        # hardcode the buttons for now
+
         document["button-isset"].bind('click', self.testSet)
+        document["canvas-field"].bind('click', self.updateSelectedCards)
 
     def getCards(self):
-        # print(self.game.field.__dict__)
+        self.cards = []
         for i in range(len(self.game.field)):
-            self.cards.append(CardCanvas(None, i, "name"+str(i), self.game.field[i]))
+            self.cards.append(CardCanvas(
+                None, i, "name"+str(i), self.game.field[i]))
 
     def testSet(self, event):
-        sc = [] #selectedcards
-        # get selected fieldcanvas
+        sc = self.selectedCards
+        if len(sc) == 3:
+            rv = self.game.isSet(sc[0].setcard, sc[1].setcard, sc[2].setcard)
+            if rv == True:
+                msg = alert("Set!")
+            else:
+                msg = alert("Geen set :(")
+        else:
+            msg = alert("Selecteer precies 3 kaarten.")
+
+    def updateSelectedCards(self, event):
+        self.selectedCards = []
         for cc in self.cards:
             if cc.isSelected and isinstance(cc.setcard, SetKaart):
-                sc.append(cc)
-        print ( sc )
-        if len( sc ) == 3:
-            rv = self.game.isSet( sc[0].setcard, sc[1].setcard, sc[2].setcard )
-            if rv == True:
-                msg = InfoDialog("Set!", "Set!")
-                # msg = tkinter.messagebox.showinfo( "Set!", "Set!" )
-            else:
-                msg = InfoDialog( "Set!", "Geen set :(" )
-        else:
-            msg = InfoDialog("Selecteer 3", "Selecteer precies 3 kaarten.")
+                self.selectedCards.append(cc)
+        self.updateSelectedCardsText()
+
+    def updateSelectedCardsText(self):
+        sct = ""
+        for card in self.selectedCards:
+            sct += repr(card.setcard)+'<br>'
+        document["selected_cards"].html = sct
