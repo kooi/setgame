@@ -125,7 +125,8 @@
                     <button id="revertToDefault_button">revert to default</button><br>
                     <button id="loadFromLocalStorage_button">load from LS</button><br>
                     <button id="saveToLocalStorage_button">save to LS</button><br>
-                    <button>run</button> <br>
+                    <button id="run_button">run</button> <br>
+                    <button id="apply_button">apply patch</button> <br>
                     <button>download</button>
                 </td>
 
@@ -236,10 +237,24 @@
         });
 
         document.getElementById('revertToDefault_button').addEventListener('click', function() {
-            // saveToLocalStorage(myCodeMirror.getValue());
             myCodeMirror.setValue(game_patch);
         });
 
+        document.getElementById('run_button').addEventListener('click', function() {
+            window.alert('Press reload button.')
+            // myCodeMirror.setValue(game_patch);
+        });
+
+        document.getElementById('apply_button').addEventListener('click', function() {
+            try {
+                eval(__BRYTHON__.python_to_js(myCodeMirror.getValue()));
+                // indicate succes
+            }
+            catch (e) {
+                window.alert(e)
+                // indicate failure
+            }
+        });
     });
 </script>
 <script>
