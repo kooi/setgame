@@ -2,14 +2,14 @@
 
 <head>
     <!-- <script src="https://cdn.jsdelivr.net/npm/brython@3.9.0/brython.min.js"></script> -->
-    <script src="lib/brython.min.js"></script>
+    <script src="lib/brython/brython.min.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/brython@3.9.0/brython_stdlib.js"></script> -->
-    <script src="lib/brython_stdlib.js" async></script>
+    <script src="lib/brython/brython_stdlib.js" async></script>
 
-    <script src="lib/codemirror.js"></script>
-    <link rel="stylesheet" href="lib/codemirror.css">
-    <script src="lib/cm_mode_python.js"></script>
-    <script src="lib/cm_addon_autorefresh.js"></script>
+    <script src="lib/codemirror/codemirror.js"></script>
+    <link rel="stylesheet" href="lib/codemirror/codemirror.css">
+    <script src="lib/codemirror/mode/python.js"></script>
+    <script src="lib/codemirror/addon/autorefresh.js"></script>
 
 
     <style>
@@ -78,12 +78,9 @@
             border-bottom-color: transparent;
         }
 
-        /* .code-area {
-            height: 100%;
-            width: 768px;
-        } */
         .CodeMirror {
             height: 600px;
+            min-width: 800px;
         }
 
     </style>
@@ -115,49 +112,19 @@
                 <td class="code-area">
                     <h4>code</h4>
                     <textarea id="code-input">
-from setgame.setkaart import SetKaart
-from setgame.game import Game
-
-def isSet(self, kaart1, kaart2, kaart3):
-    """
-    Returnt de waarde True als kaart1, kaart2 en kaart3 een set vormen en anders returnt het de waarde False.
-    Om mee te beginnen zal het elke 3 kaarten als niet een set aanduiden (met return False).
-    """
-    return True
-
-def maakSet(self, kaart1, kaart2):
-    """
-    Returnt de vereiste kaart om een set te maken. De eigenschappen van de kaarten kun je opvragen met:
-        kaart1.hoeveelheid, kaart1.kleur, kaart1.vorm, kaart1.vulling en
-        kaart2.hoeveelheid, kaart2.kleur, kaart2.vorm, kaart2.vulling en
-    Als bijvoorbeeld
-        maakSet( SetKaart(1,1,1,1), SetKaart(2,2,2,2) ) aangeroepen wordt dan geldt:
-            kaart1.hoeveelheid = 1
-            kaart1.kleur = 1
-            kaart1.vorm = 1
-            kaart1.vulling = 1
-            en
-            kaart2.hoeveelheid = 2
-            kaart2.kleur = 2
-            kaart2.vorm = 2
-            kaart2.vulling = 2
-    """
-    hv = 2
-    kl = 2
-    vo = 2
-    vu = 2
-    return SetKaart(hv, kl, vo, vu)
-
-# apply patch
-Game.isSet = isSet
-Game.maakSet = maakSet
                     </textarea>
                 </td>
 
                 <td class="sideFrame">
+                    <!-- TODO: Revert: Load from ./game_patch.py -->
+                    <!-- TODO: Load: Load from LocalStorage -->
+                    <!-- TODO: Save: Save to LocalStorage -->
+                    <!-- TODO: Run: (Save to LocalStorage and) reload -->
+                    <!-- TODO: Download: Download file -->
                     <h4>buttons</h4>
-                    <button class="">revert</button><br>
-                    <button>save</button><br>
+                    <button id="revertToDefault_button">revert to default</button><br>
+                    <button id="loadFromLocalStorage_button">load from LS</button><br>
+                    <button id="saveToLocalStorage_button">save to LS</button><br>
                     <button>run</button> <br>
                     <button>download</button>
                 </td>
@@ -220,6 +187,21 @@ Game.maakSet = maakSet
 <!-- <script type="text/javascript" src="brython.min.js"></script> -->
 <!-- <script type="text/javascript" src="brython_stdlib.js"></script> -->
 <script>
+    function loadFromLocalStorage() {
+        if (localStorage.game_patch) {
+            return localStorage.game_patch;
+        } else {
+            return "game_patch.py not stored in localStorage";
+        }
+    }
+
+
+    function saveToLocalStorage(code) {
+        // try?
+        localStorage.game_patch = code;
+    }
+
+
     function showTabContents(contentsId, activeTabId) {
         Array.from(document.getElementsByClassName('main')).forEach(element => {
             element.style.display = "none";
@@ -231,9 +213,11 @@ Game.maakSet = maakSet
         document.getElementById(activeTabId).className = "active";
     }
 
+
+    // var myCodeMirror needs to be global?
     window.addEventListener('load', (event) => {
-        myTextArea = document.getElementById("code-input")
-        var myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
+        myTextArea = document.getElementById("code-input");
+        myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
             mode: "python",
             theme: "default",
             indentWithTabs: false,
@@ -241,13 +225,60 @@ Game.maakSet = maakSet
             lineNumbers: true,
             autoRefresh: true,
             height: "600px",
-            // autoFocus: true,
-            // viewportMargin: 1000,
         });
-        // setTimeout(function() {
-        //     myCodeMirror.refresh();
-        // },1);
+
+        document.getElementById('loadFromLocalStorage_button').addEventListener('click', function() {
+            myCodeMirror.setValue(loadFromLocalStorage());
+        });
+
+        document.getElementById('saveToLocalStorage_button').addEventListener('click', function() {
+            saveToLocalStorage(myCodeMirror.getValue());
+        });
+
+        document.getElementById('revertToDefault_button').addEventListener('click', function() {
+            // saveToLocalStorage(myCodeMirror.getValue());
+            myCodeMirror.setValue(game_patch);
+        });
+
     });
+</script>
+<script>
+var game_patch = `from setgame.setkaart import SetKaart
+from setgame.game import Game
+
+def isSet(self, kaart1, kaart2, kaart3):
+    """
+    Returnt de waarde True als kaart1, kaart2 en kaart3 een set vormen en anders returnt het de waarde False.
+    Om mee te beginnen zal het elke 3 kaarten als niet een set aanduiden (met return False).
+    """
+    return True
+
+def maakSet(self, kaart1, kaart2):
+    """
+    Returnt de vereiste kaart om een set te maken. De eigenschappen van de kaarten kun je opvragen met:
+        kaart1.hoeveelheid, kaart1.kleur, kaart1.vorm, kaart1.vulling en
+        kaart2.hoeveelheid, kaart2.kleur, kaart2.vorm, kaart2.vulling en
+    Als bijvoorbeeld
+        maakSet( SetKaart(1,1,1,1), SetKaart(2,2,2,2) ) aangeroepen wordt dan geldt:
+            kaart1.hoeveelheid = 1
+            kaart1.kleur = 1
+            kaart1.vorm = 1
+            kaart1.vulling = 1
+            en
+            kaart2.hoeveelheid = 2
+            kaart2.kleur = 2
+            kaart2.vorm = 2
+            kaart2.vulling = 2
+    """
+    hv = 2
+    kl = 2
+    vo = 2
+    vu = 2
+    return SetKaart(hv, kl, vo, vu)
+
+# apply patch
+Game.isSet = isSet
+Game.maakSet = maakSet`;
 </script>
 <script type="text/python" src="set_brython.py"></script>
 
