@@ -123,9 +123,9 @@
                     <button id="revertToDefault_button">revert to default</button><br>
                     <button id="loadFromLocalStorage_button">load from LS</button><br>
                     <button id="saveToLocalStorage_button">save to LS</button><br>
-                    <button id="run_button">run</button> <br>
+                    <!-- <button id="run_button">run</button> <br> -->
                     <button id="apply_button">apply patch</button> <br>
-                    <button>download</button>
+                    <button id="download_button">download</button>
                 </td>
 
             </tr>
@@ -165,16 +165,19 @@
                 <td class="sideFrame">
                     <h4>SideFrame</h4>
                     <button id="button-isset">isSet()</button>
-                    <input type='checkbox'>auto-isset</input><br>
+                    <!-- <input type='checkbox'>auto-isset</input> -->
+                    <br>
 
                     <button>maakSet()</button>
-                    <input type='checkbox'>auto-maakset</input>
+                    <!-- <input type='checkbox'>auto-maakset</input> -->
+                    <br>
 
                     <h5>Geselecteerde Kaarten</h5>
                     <div id="selected_cards" class="console"></div>
 
-                    <h5>Benodigde Kaart</h5>
-                    <div id='required_card'></div>
+                    <!-- TODO: Required Card rendering -->
+                    <!-- <h5>Benodigde Kaart</h5> -->
+                    <!-- <div id='required_card'></div> -->
                 </td>
 
             </tr>
@@ -188,7 +191,7 @@
         if (localStorage.game_patch) {
             return localStorage.game_patch;
         } else {
-            return "game_patch.py not stored in localStorage";
+            return "Error: 'game_patch.py' not found in LocalStorage";
         }
     }
 
@@ -211,8 +214,10 @@
     }
 
 
-    // var myCodeMirror needs to be global?
     window.addEventListener('load', (event) => {
+        // TODO: Client-side 'profile' system
+        // TODO: Provide username with query parameter
+        // TODO: Save username in LocalStorage
         myTextArea = document.getElementById("code-input");
         myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
             mode: "python",
@@ -236,19 +241,50 @@
             myCodeMirror.setValue(game_patch);
         });
 
-        document.getElementById('run_button').addEventListener('click', function() {
-            window.alert('Press reload button.')
-            // myCodeMirror.setValue(game_patch);
-        });
+        // document.getElementById('run_button').addEventListener('click', function() {
+        //     window.alert('Press reload button.')
+        //     myCodeMirror.setValue(game_patch);
+        // });
 
         document.getElementById('apply_button').addEventListener('click', function() {
             try {
                 eval(__BRYTHON__.python_to_js(myCodeMirror.getValue()));
-                // indicate succes
+                // TODO: indicate succes
             }
             catch (e) {
                 window.alert(e)
-                // indicate failure
+                // TODO: indicate failure
+            }
+        });
+
+        document.getElementById('download_button').addEventListener('click', function() {
+            // TODO: Include username in base name
+            var fnb = 'game_patch';
+            var d = new Date();
+            var fileName = fnb + '_' + d.toJSON()
+                                        .substring(0,10) // reverse date format
+                                        .split('-')
+                                        .join('')
+                                     + '.py';
+            var code = myCodeMirror.getValue();
+
+            if ('Blob' in window) {
+                var textToWrite = code.replace(/\n/g, '\r\n');
+                var textFileAsBlob = new Blob([textToWrite], { type: 'text/plain' });
+
+                if ('msSaveOrOpenBlob' in navigator) {
+                    navigator.msSaveOrOpenBlob(textFileAsBlob, fileName);
+                } else {
+                    var downloadLink = document.createElement('a');
+                    downloadLink.download = fileName;
+                    downloadLink.innerHTML = 'Download File';
+                    downloadLink.href = window.URL.createObjectURL(textFileAsBlob);
+                    downloadLink.style.display = 'none';
+                    document.body.appendChild(downloadLink);
+                    downloadLink.click();
+                }
+            } else {
+                alert('Your browser does not support the HTML5 Blob.');
             }
         });
     });
