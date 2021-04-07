@@ -2,7 +2,8 @@
 
 <head>
     <script src="lib/brython/brython.min.js"></script>
-    <script src="lib/brython/brython_modules.js" async></script>
+    <!-- <script src="lib/brython/brython_modules.js" async></script> -->
+    <script src="lib/brython/brython_stdlib.js" async></script>
 
     <script src="lib/codemirror/codemirror.js"></script>
     <link rel="stylesheet" href="lib/codemirror/codemirror.css">
@@ -15,31 +16,7 @@
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
 
-        .cardcanvas {
-            border: solid;
-            border-color: lightskyblue;
-            width: 180px;
-            height: 240px;
-            /* float: left; */
-        }
-
-        .selected {
-            border: solid;
-            border-color: blue;
-        }
-
-        .sideFrame {
-            vertical-align: top;
-        }
-
-        .console {
-            font-family: 'Courier New', Courier, monospace;
-        }
-
-        .main {
-            background-color: lightgray;
-        }
-
+        /* navigation */
         nav {
             border-bottom: 1px solid #ddd;
         }
@@ -76,16 +53,46 @@
             border-bottom-color: transparent;
         }
 
+        /* main */
+        .main {
+            background-color: lightgray;
+        }
+
+        .cardcanvas {
+            border: solid;
+            border-color: lightskyblue;
+            width: 180px;
+            height: 240px;
+            /* float: left; */
+        }
+
+        .selected {
+            border: solid;
+            border-color: blue;
+        }
+
         .CodeMirror {
             height: 600px;
             min-width: 800px;
         }
 
+        /* sideframe */
+        .sideFrame {
+            vertical-align: top;
+        }
+
+        .console {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* button {
+        } */
+
     </style>
 
 </head>
 
-<body onload="brython(1)">
+<body onload="brython()">
 
     <h1>SetGame</h1>
 
@@ -114,17 +121,18 @@
                 </td>
 
                 <td class="sideFrame">
-                    <!-- TODO: Revert: Load from ./game_patch.py -->
-                    <!-- TODO: Load: Load from LocalStorage -->
-                    <!-- TODO: Save: Save to LocalStorage -->
-                    <!-- TODO: Run: (Save to LocalStorage and) reload -->
-                    <!-- TODO: Download: Download file -->
                     <h4>buttons</h4>
+                    <!-- NB: bound to JS functions -->
+                    <!-- Revert: Load from ./game_patch.py -->
                     <button id="revertToDefault_button">revert to default</button><br>
+                    <!-- Load: Load from LocalStorage -->
                     <button id="loadFromLocalStorage_button">load from LS</button><br>
+                    <!-- Save: Save to LocalStorage -->
                     <button id="saveToLocalStorage_button">save to LS</button><br>
+                    <!-- TODO: Run: (Save to LocalStorage and) reload -->
                     <!-- <button id="run_button">run</button> <br> -->
                     <button id="apply_button">apply patch</button> <br>
+                    <!-- Download: Download file -->
                     <button id="download_button">download</button>
                 </td>
 
@@ -164,16 +172,25 @@
 
                 <td class="sideFrame">
                     <h4>SideFrame</h4>
+                    <!-- NB: bound to python functions  -->
                     <button id="button-isset">isSet()</button>
                     <!-- <input type='checkbox'>auto-isset</input> -->
                     <br>
 
-                    <button>maakSet()</button>
+                    <!-- TODO: maakSet() -->
+                    <!-- <button>maakSet()</button> -->
                     <!-- <input type='checkbox'>auto-maakset</input> -->
+                    <!-- <br> -->
+
+                    <!-- TODO: Count: Count number of sets -->
+                    <button id="button-countset">countSets()</button>
                     <br>
 
                     <h5>Geselecteerde Kaarten</h5>
                     <div id="selected_cards" class="console"></div>
+
+                    <h5>Aantal Sets</h5>
+                    <div id="number-of-sets" class="console"></div>
 
                     <!-- TODO: Required Card rendering -->
                     <!-- <h5>Benodigde Kaart</h5> -->
@@ -216,8 +233,33 @@
 
     window.addEventListener('load', (event) => {
         // TODO: Client-side 'profile' system
-        // TODO: Provide username with query parameter
-        // TODO: Save username in LocalStorage
+        myUser = {
+            id: null,
+            username: null,
+            name: null,
+            surname: null
+        };
+
+        // Check if userdata is provided by query parameters
+        suri = window.location.search;
+        usp = new URLSearchParams(suri)
+        if (usp.has('id')) {
+            console.log(suri.length);
+            for (property in myUser) {
+                myUser[property] = usp.get(property);
+                // console.log(property);
+            }
+        }
+        // Otherwise check if userdata is saved in LocalStorage
+        else if (localStorage.myUser) {
+            myUser = localStorage.myUser;
+        }
+
+        // Save username in LocalStorage for later
+        localStorage.myUser = myUser;
+
+        console.log(myUser);
+
         myTextArea = document.getElementById("code-input");
         myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
             mode: "python",
