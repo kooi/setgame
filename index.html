@@ -10,6 +10,9 @@
     <script src="lib/codemirror/mode/python.js"></script>
     <script src="lib/codemirror/addon/autorefresh.js"></script>
 
+    <link rel="stylesheet" href="lib/promptjs/prompt.css" />
+    <!-- <script src="lib/promptjs/prompt.min.js"></script> -->
+    <script src="lib/promptjs/prompt.js"></script>
 
     <style>
         html {
@@ -20,16 +23,20 @@
             margin: 0px;
         }
 
+        h3 {
+            margin-top: 0px;
+        }
+
         /* header */
         header {
             width: 100%;
             position: relative;
             height: 64px;
-            background-color: cornflowerblue;
+            /* background-color: lightblue; */
         }
 
         .profile {
-            background-color: crimson;
+            /* background-color: lightblue; */
             position: absolute;
             right: 0px;
             top: 0px;
@@ -38,8 +45,8 @@
         }
 
         #user-name {
-            background-color: lime;
             margin: 12px;
+            font-weight: bold;
         }
 
         #avatar {
@@ -70,7 +77,7 @@
             border-bottom: 0px;
             padding: 10px 15px;
             display: inline-block;
-            border-radius: 4px 4px 0 0;
+            border-radius: 8px 8px 0 0;
         }
 
         .nav-tabs>li.active>a,
@@ -78,27 +85,31 @@
         .nav-tabs>li.active>a:hover {
             color: #555;
             cursor: default;
-            background-color: #fff;
+            background-color: whitesmoke;
             border: 1px solid #ddd;
             border-bottom-color: transparent;
         }
 
         /* main */
         .main {
-            background-color: white;
+            background-color: whitesmoke;
         }
 
         .cardcanvas {
             border: solid;
+            border-radius: 24px;
+            border-width: 2px;
             border-color: lightskyblue;
             background-color: lightgray;
             width: 180px;
             height: 240px;
+            margin: 4px;
             /* float: left; */
         }
 
         .selected {
             border: solid;
+            border-width: 2px;
             border-color: blue;
         }
 
@@ -269,7 +280,20 @@
 
 
     window.addEventListener('load', (event) => {
-        // TODO: Client-side 'profile' system
+        // Notifications using promptjs
+        myPrompt = loadPrompt();
+        // myPrompt.config = {
+        //     classList: {},
+        //     displayTime: 1690,
+        //     errorModel: DOM,
+        //     informModel: DOM,
+        //     shake: true,
+        //     successModel: DOM,
+        //     warnModel: DOM,
+        // }
+
+
+        // Client-side 'profile' system
         myUser = {
             id: null,
             username: null,
@@ -289,14 +313,17 @@
         }
         // Otherwise check if userdata is saved in LocalStorage
         else if (localStorage.myUser) {
-            myUser = localStorage.myUser;
+            myUser = JSON.parse(localStorage.myUser);
         }
 
         // Save username in LocalStorage for later
-        localStorage.myUser = myUser.toJSON();
+        localStorage.myUser = JSON.stringify(myUser);
 
+        // Display user
         document.getElementById("user-name").innerText = myUser.name;
 
+
+        // Coding Area
         myTextArea = document.getElementById("code-input");
         myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
             mode: "python",
@@ -320,19 +347,16 @@
             myCodeMirror.setValue(game_patch);
         });
 
-        // document.getElementById('run_button').addEventListener('click', function() {
-        //     window.alert('Press reload button.')
-        //     myCodeMirror.setValue(game_patch);
-        // });
-
         document.getElementById('apply_button').addEventListener('click', function() {
             try {
                 eval(__BRYTHON__.python_to_js(myCodeMirror.getValue()));
+                myPrompt.success("Patch applied successfully.");
                 // TODO: indicate succes
             }
             catch (e) {
-                window.alert(e)
                 // TODO: indicate failure
+                myPrompt.error(e.name);
+                // console.log(e)
             }
         });
 
@@ -374,18 +398,20 @@ from setgame.game import Game
 
 def isSet(self, kaart1, kaart2, kaart3):
     """
-    Returnt de waarde True als kaart1, kaart2 en kaart3 een set vormen en anders returnt het de waarde False.
-    Om mee te beginnen zal het elke 3 kaarten als niet een set aanduiden (met return False).
+    Returnt de waarde True als kaart1, kaart2 en kaart3 een set vormen en 
+    anders returnt het de waarde False. Om mee te beginnen zal het elke 3
+    kaarten als niet een set aanduiden (met return False).
     """
     return True
 
 def maakSet(self, kaart1, kaart2):
     """
-    Returnt de vereiste kaart om een set te maken. De eigenschappen van de kaarten kun je opvragen met:
+    Returnt de vereiste kaart om een set te maken. De eigenschappen van
+    de kaarten kun je opvragen met:
         kaart1.hoeveelheid, kaart1.kleur, kaart1.vorm, kaart1.vulling en
         kaart2.hoeveelheid, kaart2.kleur, kaart2.vorm, kaart2.vulling en
-    Als bijvoorbeeld
-        maakSet( SetKaart(1,1,1,1), SetKaart(2,2,2,2) ) aangeroepen wordt dan geldt:
+    Als bijvoorbeeld maakSet( SetKaart(1,1,1,1), SetKaart(2,2,2,2) ) 
+        aangeroepen wordt dan geldt:
             kaart1.hoeveelheid = 1
             kaart1.kleur = 1
             kaart1.vorm = 1
@@ -404,7 +430,8 @@ def maakSet(self, kaart1, kaart2):
 
 # apply patch
 Game.isSet = isSet
-Game.maakSet = maakSet`;
+Game.maakSet = maakSet
+`;
 </script>
 <script type="text/python" src="set_brython.py"></script>
 
