@@ -226,9 +226,9 @@
                     <br>
 
                     <!-- TODO: maakSet() -->
-                    <!-- <button>maakSet()</button> -->
+                    <button>maakSet()</button>
                     <!-- <input type='checkbox'>auto-maakset</input> -->
-                    <!-- <br> -->
+                    <br>
 
                     <!-- TODO: Count: Count number of sets -->
                     <button id="button-countset">countSets()</button>
@@ -241,8 +241,8 @@
                     <div id="number-of-sets" class="console"></div>
 
                     <!-- TODO: Required Card rendering -->
-                    <!-- <h5>Benodigde Kaart</h5> -->
-                    <!-- <div id='required_card'></div> -->
+                    <h5>Benodigde Kaart</h5>
+                    <div id='required_card'></div>
                 </td>
 
             </tr>
@@ -315,6 +315,10 @@
         else if (localStorage.myUser) {
             myUser = JSON.parse(localStorage.myUser);
         }
+        // Ask for username
+        else {
+            myUser.name = prompt("Enter name:")
+        }
 
         // Save username in LocalStorage for later
         localStorage.myUser = JSON.stringify(myUser);
@@ -323,7 +327,7 @@
         document.getElementById("user-name").innerText = myUser.name;
 
 
-        // Coding Area
+        /* Code area setup */
         myTextArea = document.getElementById("code-input");
         myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
             mode: "python",
@@ -335,6 +339,8 @@
             height: "600px",
         });
 
+
+        // JavaScript event listeners
         document.getElementById('loadFromLocalStorage_button').addEventListener('click', function() {
             myCodeMirror.setValue(loadFromLocalStorage());
         });
@@ -351,12 +357,10 @@
             try {
                 eval(__BRYTHON__.python_to_js(myCodeMirror.getValue()));
                 myPrompt.success("Patch applied successfully.");
-                // TODO: indicate succes
             }
             catch (e) {
-                // TODO: indicate failure
                 myPrompt.error(e.name);
-                // console.log(e)
+                console.log(e)
             }
         });
 
