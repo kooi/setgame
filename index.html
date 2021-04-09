@@ -16,6 +16,36 @@
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
 
+        body {
+            margin: 0px;
+        }
+
+        /* header */
+        header {
+            width: 100%;
+            position: relative;
+            height: 64px;
+            background-color: cornflowerblue;
+        }
+
+        .profile {
+            background-color: crimson;
+            position: absolute;
+            right: 0px;
+            top: 0px;
+            height: 64px;
+            /* width: 64px; */
+        }
+
+        #user-name {
+            background-color: lime;
+            margin: 12px;
+        }
+
+        #avatar {
+            width: 64px;
+        }
+
         /* navigation */
         nav {
             border-bottom: 1px solid #ddd;
@@ -55,12 +85,13 @@
 
         /* main */
         .main {
-            background-color: lightgray;
+            background-color: white;
         }
 
         .cardcanvas {
             border: solid;
             border-color: lightskyblue;
+            background-color: lightgray;
             width: 180px;
             height: 240px;
             /* float: left; */
@@ -94,8 +125,14 @@
 
 <body onload="brython()">
 
-    <h1>SetGame</h1>
+    <header>
+        <h1>SetGame</h1>
 
+        <div class="profile">
+            <div id="user-name">{{name}}</div>
+            <!-- <img id="avatar"/> -->
+        </div>
+    </header>
 
     <nav>
         <ul class="nav-tabs">
@@ -256,9 +293,9 @@
         }
 
         // Save username in LocalStorage for later
-        localStorage.myUser = myUser;
+        localStorage.myUser = myUser.toJSON();
 
-        console.log(myUser);
+        document.getElementById("user-name").innerText = myUser.name;
 
         myTextArea = document.getElementById("code-input");
         myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
