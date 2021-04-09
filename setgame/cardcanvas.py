@@ -41,7 +41,7 @@ class CardCanvas():
 
 
     def toggleSelect(self, event):
-        print(event)
+        # print(event)
         if self.isSelected == True:
             self.isSelected = False
             document[self.element_id].attrs['class'] = 'cardcanvas'

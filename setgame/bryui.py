@@ -3,7 +3,7 @@ from .game import Game
 from .deck import Deck
 from .field import Field
 from .setkaart import SetKaart
-from browser import document, html, alert
+from browser import document, html, alert, bind
 
 
 class BryUI():
@@ -22,8 +22,12 @@ class BryUI():
         self.code = document[code_div_id]
         self.getCards()
 
+        document["button-countset"].bind("click", self.countSets)
         document["button-isset"].bind('click', self.testSet)
         document["canvas-field"].bind('click', self.updateSelectedCards)
+
+    def countSets(self, event):
+        document["number-of-sets"].html = self.game.telSets(self.game.field)
 
     def getCards(self):
         self.cards = []

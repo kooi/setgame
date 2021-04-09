@@ -2,44 +2,58 @@
 
 <head>
     <script src="lib/brython/brython.min.js"></script>
-    <script src="lib/brython/brython_modules.js" async></script>
+    <!-- <script src="lib/brython/brython_modules.js" async></script> -->
+    <script src="lib/brython/brython_stdlib.js" async></script>
 
     <script src="lib/codemirror/codemirror.js"></script>
     <link rel="stylesheet" href="lib/codemirror/codemirror.css">
     <script src="lib/codemirror/mode/python.js"></script>
     <script src="lib/codemirror/addon/autorefresh.js"></script>
 
+    <link rel="stylesheet" href="lib/promptjs/prompt.css" />
+    <!-- <script src="lib/promptjs/prompt.min.js"></script> -->
+    <script src="lib/promptjs/prompt.js"></script>
 
     <style>
         html {
             font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
         }
 
-        .cardcanvas {
-            border: solid;
-            border-color: lightskyblue;
-            width: 180px;
-            height: 240px;
-            /* float: left; */
+        body {
+            margin: 0px;
         }
 
-        .selected {
-            border: solid;
-            border-color: blue;
+        h3 {
+            margin-top: 0px;
         }
 
-        .sideFrame {
-            vertical-align: top;
+        /* header */
+        header {
+            width: 100%;
+            position: relative;
+            height: 64px;
+            /* background-color: lightblue; */
         }
 
-        .console {
-            font-family: 'Courier New', Courier, monospace;
+        .profile {
+            /* background-color: lightblue; */
+            position: absolute;
+            right: 0px;
+            top: 0px;
+            height: 64px;
+            /* width: 64px; */
         }
 
-        .main {
-            background-color: lightgray;
+        #user-name {
+            margin: 12px;
+            font-weight: bold;
         }
 
+        #avatar {
+            width: 64px;
+        }
+
+        /* navigation */
         nav {
             border-bottom: 1px solid #ddd;
         }
@@ -63,7 +77,7 @@
             border-bottom: 0px;
             padding: 10px 15px;
             display: inline-block;
-            border-radius: 4px 4px 0 0;
+            border-radius: 8px 8px 0 0;
         }
 
         .nav-tabs>li.active>a,
@@ -71,9 +85,32 @@
         .nav-tabs>li.active>a:hover {
             color: #555;
             cursor: default;
-            background-color: #fff;
+            background-color: whitesmoke;
             border: 1px solid #ddd;
             border-bottom-color: transparent;
+        }
+
+        /* main */
+        .main {
+            background-color: whitesmoke;
+        }
+
+        .cardcanvas {
+            border: solid;
+            border-radius: 24px;
+            border-width: 2px;
+            border-color: lightskyblue;
+            background-color: lightgray;
+            width: 180px;
+            height: 240px;
+            margin: 4px;
+            /* float: left; */
+        }
+
+        .selected {
+            border: solid;
+            border-width: 2px;
+            border-color: blue;
         }
 
         .CodeMirror {
@@ -81,14 +118,32 @@
             min-width: 800px;
         }
 
+        /* sideframe */
+        .sideFrame {
+            vertical-align: top;
+        }
+
+        .console {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        /* button {
+        } */
+
     </style>
 
 </head>
 
-<body onload="brython(1)">
+<body onload="brython()">
 
-    <h1>SetGame</h1>
+    <header>
+        <h1>SetGame</h1>
 
+        <div class="profile">
+            <div id="user-name">{{name}}</div>
+            <!-- <img id="avatar"/> -->
+        </div>
+    </header>
 
     <nav>
         <ul class="nav-tabs">
@@ -114,17 +169,18 @@
                 </td>
 
                 <td class="sideFrame">
-                    <!-- TODO: Revert: Load from ./game_patch.py -->
-                    <!-- TODO: Load: Load from LocalStorage -->
-                    <!-- TODO: Save: Save to LocalStorage -->
-                    <!-- TODO: Run: (Save to LocalStorage and) reload -->
-                    <!-- TODO: Download: Download file -->
                     <h4>buttons</h4>
+                    <!-- NB: bound to JS functions -->
+                    <!-- Revert: Load from ./game_patch.py -->
                     <button id="revertToDefault_button">revert to default</button><br>
+                    <!-- Load: Load from LocalStorage -->
                     <button id="loadFromLocalStorage_button">load from LS</button><br>
+                    <!-- Save: Save to LocalStorage -->
                     <button id="saveToLocalStorage_button">save to LS</button><br>
+                    <!-- TODO: Run: (Save to LocalStorage and) reload -->
                     <!-- <button id="run_button">run</button> <br> -->
                     <button id="apply_button">apply patch</button> <br>
+                    <!-- Download: Download file -->
                     <button id="download_button">download</button>
                 </td>
 
@@ -164,20 +220,29 @@
 
                 <td class="sideFrame">
                     <h4>SideFrame</h4>
+                    <!-- NB: bound to python functions  -->
                     <button id="button-isset">isSet()</button>
                     <!-- <input type='checkbox'>auto-isset</input> -->
                     <br>
 
+                    <!-- TODO: maakSet() -->
                     <button>maakSet()</button>
                     <!-- <input type='checkbox'>auto-maakset</input> -->
+                    <br>
+
+                    <!-- TODO: Count: Count number of sets -->
+                    <button id="button-countset">countSets()</button>
                     <br>
 
                     <h5>Geselecteerde Kaarten</h5>
                     <div id="selected_cards" class="console"></div>
 
+                    <h5>Aantal Sets</h5>
+                    <div id="number-of-sets" class="console"></div>
+
                     <!-- TODO: Required Card rendering -->
-                    <!-- <h5>Benodigde Kaart</h5> -->
-                    <!-- <div id='required_card'></div> -->
+                    <h5>Benodigde Kaart</h5>
+                    <div id='required_card'></div>
                 </td>
 
             </tr>
@@ -215,9 +280,54 @@
 
 
     window.addEventListener('load', (event) => {
-        // TODO: Client-side 'profile' system
-        // TODO: Provide username with query parameter
-        // TODO: Save username in LocalStorage
+        // Notifications using promptjs
+        myPrompt = loadPrompt();
+        // myPrompt.config = {
+        //     classList: {},
+        //     displayTime: 1690,
+        //     errorModel: DOM,
+        //     informModel: DOM,
+        //     shake: true,
+        //     successModel: DOM,
+        //     warnModel: DOM,
+        // }
+
+
+        // Client-side 'profile' system
+        myUser = {
+            id: null,
+            username: null,
+            name: null,
+            surname: null
+        };
+
+        // Check if userdata is provided by query parameters
+        suri = window.location.search;
+        usp = new URLSearchParams(suri)
+        if (usp.has('id')) {
+            console.log(suri.length);
+            for (property in myUser) {
+                myUser[property] = usp.get(property);
+                // console.log(property);
+            }
+        }
+        // Otherwise check if userdata is saved in LocalStorage
+        else if (localStorage.myUser) {
+            myUser = JSON.parse(localStorage.myUser);
+        }
+        // Ask for username
+        else {
+            myUser.name = prompt("Enter name:")
+        }
+
+        // Save username in LocalStorage for later
+        localStorage.myUser = JSON.stringify(myUser);
+
+        // Display user
+        document.getElementById("user-name").innerText = myUser.name;
+
+
+        /* Code area setup */
         myTextArea = document.getElementById("code-input");
         myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
             mode: "python",
@@ -229,6 +339,8 @@
             height: "600px",
         });
 
+
+        // JavaScript event listeners
         document.getElementById('loadFromLocalStorage_button').addEventListener('click', function() {
             myCodeMirror.setValue(loadFromLocalStorage());
         });
@@ -241,19 +353,14 @@
             myCodeMirror.setValue(game_patch);
         });
 
-        // document.getElementById('run_button').addEventListener('click', function() {
-        //     window.alert('Press reload button.')
-        //     myCodeMirror.setValue(game_patch);
-        // });
-
         document.getElementById('apply_button').addEventListener('click', function() {
             try {
                 eval(__BRYTHON__.python_to_js(myCodeMirror.getValue()));
-                // TODO: indicate succes
+                myPrompt.success("Patch applied successfully.");
             }
             catch (e) {
-                window.alert(e)
-                // TODO: indicate failure
+                myPrompt.error(e.name);
+                console.log(e)
             }
         });
 
@@ -295,18 +402,20 @@ from setgame.game import Game
 
 def isSet(self, kaart1, kaart2, kaart3):
     """
-    Returnt de waarde True als kaart1, kaart2 en kaart3 een set vormen en anders returnt het de waarde False.
-    Om mee te beginnen zal het elke 3 kaarten als niet een set aanduiden (met return False).
+    Returnt de waarde True als kaart1, kaart2 en kaart3 een set vormen en 
+    anders returnt het de waarde False. Om mee te beginnen zal het elke 3
+    kaarten als niet een set aanduiden (met return False).
     """
     return True
 
 def maakSet(self, kaart1, kaart2):
     """
-    Returnt de vereiste kaart om een set te maken. De eigenschappen van de kaarten kun je opvragen met:
+    Returnt de vereiste kaart om een set te maken. De eigenschappen van
+    de kaarten kun je opvragen met:
         kaart1.hoeveelheid, kaart1.kleur, kaart1.vorm, kaart1.vulling en
         kaart2.hoeveelheid, kaart2.kleur, kaart2.vorm, kaart2.vulling en
-    Als bijvoorbeeld
-        maakSet( SetKaart(1,1,1,1), SetKaart(2,2,2,2) ) aangeroepen wordt dan geldt:
+    Als bijvoorbeeld maakSet( SetKaart(1,1,1,1), SetKaart(2,2,2,2) ) 
+        aangeroepen wordt dan geldt:
             kaart1.hoeveelheid = 1
             kaart1.kleur = 1
             kaart1.vorm = 1
@@ -325,7 +434,8 @@ def maakSet(self, kaart1, kaart2):
 
 # apply patch
 Game.isSet = isSet
-Game.maakSet = maakSet`;
+Game.maakSet = maakSet
+`;
 </script>
 <script type="text/python" src="set_brython.py"></script>
 
