@@ -8,7 +8,7 @@ class CardCanvas():
     HTML Canvas for rendering set cards using python turtle.
     """
 
-    def __init__(self, parent, number, name, setcard):
+    def __init__(self, parent, number, name, setcard, element_id=None):
         self.sizex = 180
         self.sizey = 240
         self.bgcolor = "white"
@@ -19,7 +19,10 @@ class CardCanvas():
         self.name = name
         self.number = number
         self.setcard = setcard
-        self.element_id = "canvas"+str(self.number)
+        if (element_id):
+            self.element_id = element_id
+        else:
+            self.element_id = "canvas"+str(self.number)
         self.initTurtleCanvas()
         self.renderCard()
         turtle.done()
@@ -36,12 +39,12 @@ class CardCanvas():
         )
         self.myTurtle = turtle.Turtle()
         self.myTurtle.shape("turtle")
-        self.myTurtle.speed(1)
-        self.myTurtle.showturtle()
+        # self.myTurtle.speed(1)
+        # self.myTurtle.pensize(500)
+        # self.myTurtle.showturtle()
 
 
     def toggleSelect(self, event):
-        print(event)
         if self.isSelected == True:
             self.isSelected = False
             document[self.element_id].attrs['class'] = 'cardcanvas'
