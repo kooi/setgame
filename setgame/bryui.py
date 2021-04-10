@@ -24,10 +24,11 @@ class BryUI():
 
         document["button-countset"].bind("click", self.countSets)
         document["button-isset"].bind('click', self.testSet)
+        document["button-maakset"].bind('click', self.makeSet)
         document["canvas-field"].bind('click', self.updateSelectedCards)
 
     def countSets(self, event):
-        document["number-of-sets"].html = self.game.telSets(self.game.field)
+        document["number_of_sets"].html = self.game.telSets(self.game.field)
 
     def getCards(self):
         self.cards = []
@@ -45,6 +46,16 @@ class BryUI():
                 msg = alert("Geen set :(")
         else:
             msg = alert("Selecteer precies 3 kaarten.")
+
+    def makeSet(self, event):
+        sc = self.selectedCards
+        if len(sc) == 2:
+            self.requiredCard = self.game.maakSet(sc[0].setcard, sc[1].setcard)
+            self.requiredCardText = repr(self.requiredCard)
+            # self.requiredCards.append(CardCanvas(None, 12, "name12", self.requiredCard, element_id="required_cardcanvas"))
+            document["required_card"].html = self.requiredCardText
+        else:
+            msg = alert("Selecteer precies 2 kaarten.")
 
     def updateSelectedCards(self, event):
         self.selectedCards = []

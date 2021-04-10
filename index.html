@@ -134,7 +134,7 @@
 
 </head>
 
-<body onload="brython()">
+<body onload="brython(2)">
 
     <header>
         <h1>SetGame</h1>
@@ -221,16 +221,18 @@
                 <td class="sideFrame">
                     <h4>SideFrame</h4>
                     <!-- NB: bound to python functions  -->
+
+                    <!-- Check if selected is a valid set -->
                     <button id="button-isset">isSet()</button>
                     <!-- <input type='checkbox'>auto-isset</input> -->
                     <br>
 
-                    <!-- TODO: maakSet() -->
-                    <button>maakSet()</button>
+                    <!-- Complete the set -->
+                    <button id="button-maakset">maakSet()</button>
                     <!-- <input type='checkbox'>auto-maakset</input> -->
                     <br>
 
-                    <!-- TODO: Count: Count number of sets -->
+                    <!-- Count number of sets -->
                     <button id="button-countset">countSets()</button>
                     <br>
 
@@ -238,11 +240,17 @@
                     <div id="selected_cards" class="console"></div>
 
                     <h5>Aantal Sets</h5>
-                    <div id="number-of-sets" class="console"></div>
+                    <div id="number_of_sets" class="console"></div>
 
-                    <!-- TODO: Required Card rendering -->
                     <h5>Benodigde Kaart</h5>
-                    <div id='required_card'></div>
+                    <div id="required_card" class="console"></div>
+                    <!-- TODO: Required Card rendering -->
+                    <!-- <div id="required_cardcanvas" class="cardcanvas"></div> -->
+
+                    <!-- TODO: Track found sets in a list of sets -->
+                    <!-- <h5>Gevonden Sets</h5> -->
+                    <!-- <div id="found_sets" class="console"></div> -->
+
                 </td>
 
             </tr>
@@ -252,21 +260,7 @@
 </body>
 
 <script>
-    function loadFromLocalStorage() {
-        if (localStorage.game_patch) {
-            return localStorage.game_patch;
-        } else {
-            return "Error: 'game_patch.py' not found in LocalStorage";
-        }
-    }
-
-
-    function saveToLocalStorage(code) {
-        // try?
-        localStorage.game_patch = code;
-    }
-
-
+    // Tab navigation
     function showTabContents(contentsId, activeTabId) {
         Array.from(document.getElementsByClassName('main')).forEach(element => {
             element.style.display = "none";
@@ -342,15 +336,30 @@
 
         // JavaScript event listeners
         document.getElementById('loadFromLocalStorage_button').addEventListener('click', function() {
-            myCodeMirror.setValue(loadFromLocalStorage());
+            try {
+                myCodeMirror.setValue(localStorage.game_patch);
+            } 
+            catch (e) {
+                if (e instanceof TypeError) {
+                    myPrompt.error("Error: 'game_patch.py' not found in localStorage");
+                }
+                else {
+                    myPrompt.error(e.name + ': '+ e.message);
+                    console.log(e);
+                }
+            }
         });
 
         document.getElementById('saveToLocalStorage_button').addEventListener('click', function() {
-            saveToLocalStorage(myCodeMirror.getValue());
+            localStorage.game_patch = myCodeMirror.getValue();
+            myPrompt.success("Code saved to localStorage");
         });
 
         document.getElementById('revertToDefault_button').addEventListener('click', function() {
-            myCodeMirror.setValue(game_patch);
+            if (window.confirm("This will revert all current code back to default! Are you sure?") ) {
+                myCodeMirror.setValue(game_patch);
+                myPrompt.inform("Code reverted.")
+            }
         });
 
         document.getElementById('apply_button').addEventListener('click', function() {
@@ -366,7 +375,7 @@
 
         document.getElementById('download_button').addEventListener('click', function() {
             // TODO: Include username in base name
-            var fnb = 'game_patch';
+            var fnb = 'game_patch_' + myUser.name.toLowerCase();
             var d = new Date();
             var fileName = fnb + '_' + d.toJSON()
                                         .substring(0,10) // reverse date format
