@@ -36,7 +36,7 @@ class Game():
                     for c3 in field3:
                         if self.isSet(c1, c2, c3):
                             count += 1
-        return count / 6
+        return int(count / 6)
 
 
     def deelSet(self, a, b, c):
