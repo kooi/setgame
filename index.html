@@ -89,6 +89,10 @@
             border: 1px solid #ddd;
             border-bottom-color: transparent;
         }
+        #status-bar {
+            padding: 10px 15px;
+            float: right;
+        }
 
         /* main */
         .main {
@@ -154,6 +158,7 @@
                 <a href="#" onclick="showTabContents('ide', 'ide-tab')">code</a>
             </li>
         </ul>
+        <div id="status-bar" class="console"></div>
     </nav>
 
 
@@ -174,9 +179,9 @@
                     <!-- Revert: Load from ./game_patch.py -->
                     <button id="revertToDefault_button">revert to default</button><br>
                     <!-- Load: Load from LocalStorage -->
-                    <button id="loadFromLocalStorage_button">load from LS</button><br>
+                    <!-- <button id="loadFromLocalStorage_button">load from LS</button><br> -->
                     <!-- Save: Save to LocalStorage -->
-                    <button id="saveToLocalStorage_button">save to LS</button><br>
+                    <!-- <button id="saveToLocalStorage_button">save to LS</button><br> -->
                     <!-- TODO: Run: (Save to LocalStorage and) reload -->
                     <!-- <button id="run_button">run</button> <br> -->
                     <button id="apply_button">apply patch</button> <br>
@@ -322,6 +327,7 @@
 
 
         /* Code area setup */
+        // Setup codemirror
         myTextArea = document.getElementById("code-input");
         myCodeMirror = CodeMirror.fromTextArea(myTextArea, {
             mode: "python",
@@ -332,29 +338,72 @@
             autoRefresh: true,
             height: "600px",
         });
-
-
-        // JavaScript event listeners
-        document.getElementById('loadFromLocalStorage_button').addEventListener('click', function() {
-            try {
+        // Load data from localStorage
+        try {
                 myCodeMirror.setValue(localStorage.game_patch);
-            } 
-            catch (e) {
-                if (e instanceof TypeError) {
-                    myPrompt.error("Error: 'game_patch.py' not found in localStorage");
-                }
-                else {
-                    myPrompt.error(e.name + ': '+ e.message);
-                    console.log(e);
-                }
+                myPrompt.inform('game_patch.py loaded from localStorage')
+        }
+        catch (e) {
+            if (e instanceof TypeError) {
+                myPrompt.error("Error: 'game_patch.py' not found in localStorage");
             }
-        });
+            else {
+                myPrompt.error(e.name + ': '+ e.message);
+                console.log(e);
+            }
+        }
 
-        document.getElementById('saveToLocalStorage_button').addEventListener('click', function() {
+
+        /* JavaScript event listeners */
+        // Load game_patch file from localStorage (button-onclick)
+        // TODO: Load from localStorage on pageload
+        // document.getElementById('loadFromLocalStorage_button').addEventListener('click', function() {
+        //     try {
+        //         myCodeMirror.setValue(localStorage.game_patch);
+        //         myPrompt.inform('game_patch.py loaded from localStorage')
+        //     }
+        //     catch (e) {
+        //         if (e instanceof TypeError) {
+        //             myPrompt.error("Error: 'game_patch.py' not found in localStorage");
+        //         }
+        //         else {
+        //             myPrompt.error(e.name + ': '+ e.message);
+        //             console.log(e);
+        //         }
+        //     }
+        // });
+
+        // TODO: Load game_patchfile from disk (button-onclick)
+
+        // TODO: try... catch...
+        // Save game_patch file to localStorage (button-oclick)
+        // document.getElementById('saveToLocalStorage_button').addEventListener('click', function() {
+        //     localStorage.game_patch = myCodeMirror.getValue();
+        //     myPrompt.success("Code saved to localStorage");
+        // });
+        // Save game_patch file to localStorage (codemirror-onchange)
+        let myTimeout = null;
+        myCodeMirror.doc.on('change', function(){
+            try {
+                window.clearTimeout(myTimeout);
+            }
+            catch (e) {
+                console.log(e);
+            }
             localStorage.game_patch = myCodeMirror.getValue();
-            myPrompt.success("Code saved to localStorage");
-        });
+            // myPrompt.success("Code autosaved to localStorage");
+            let myDate = new Date();
+            let myTime = myDate.getTime();
+            let myElement = document.getElementById('status-bar')
+            myElement.innerHTML = "";
+            myTimeout = window.setTimeout(function(){
+                // window.setTimeout(function(){});
+                myElement.innerHTML = 'Autosaved at ' + myDate.toTimeString();
+            }, 2000);//wait 2 seconds
+        })
 
+
+        // Revert to default code
         document.getElementById('revertToDefault_button').addEventListener('click', function() {
             if (window.confirm("This will revert all current code back to default! Are you sure?") ) {
                 myCodeMirror.setValue(game_patch);
@@ -362,6 +411,7 @@
             }
         });
 
+        // Run game_patch overwriting `game.isset` and `game.maakset`
         document.getElementById('apply_button').addEventListener('click', function() {
             try {
                 eval(__BRYTHON__.python_to_js(myCodeMirror.getValue()));
