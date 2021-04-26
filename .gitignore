@@ -51,4 +51,4 @@ build/*
 dist/*
 *.spec
 temp/*
-brython_stdlib.js
+#brython_stdlib.js
