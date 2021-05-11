@@ -195,12 +195,12 @@
 
 
     <div id="setgui" class="main">
-        <h3>setgui</h3>
+        <!-- <h3>setgui</h3> -->
         <table>
             <tr>
 
                 <td>
-                    <h4>Field</h4>
+                    <!-- <h4>Field</h4> -->
                     <table id="canvas-field">
                         <tr>
                             <td><div id="canvas0" class="cardcanvas"></div></td>
@@ -224,7 +224,7 @@
                 </td>
 
                 <td class="sideFrame">
-                    <h4>SideFrame</h4>
+                    <!-- <h4>SideFrame</h4> -->
                     <!-- NB: bound to python functions  -->
 
                     <!-- Check if selected is a valid set -->
@@ -456,25 +456,24 @@
     });
 </script>
 <script>
+    // TODO: async load from game_patch.py
 var game_patch = `from setgame.setkaart import SetKaart
-from setgame.game import Game
+from setgame.abstractgame import Game
 
 def isSet(self, kaart1, kaart2, kaart3):
     """
-    Returnt de waarde True als kaart1, kaart2 en kaart3 een set vormen en 
-    anders returnt het de waarde False. Om mee te beginnen zal het elke 3
-    kaarten als niet een set aanduiden (met return False).
+    Returnt de waarde True als kaart1, kaart2 en kaart3 een set vormen en anders returnt het de waarde False.
+    Om mee te beginnen zal het elke 3 kaarten als niet een set aanduiden (met return False).
     """
     return True
 
 def maakSet(self, kaart1, kaart2):
     """
-    Returnt de vereiste kaart om een set te maken. De eigenschappen van
-    de kaarten kun je opvragen met:
+    Returnt de vereiste kaart om een set te maken. De eigenschappen van de kaarten kun je opvragen met:
         kaart1.hoeveelheid, kaart1.kleur, kaart1.vorm, kaart1.vulling en
         kaart2.hoeveelheid, kaart2.kleur, kaart2.vorm, kaart2.vulling en
-    Als bijvoorbeeld maakSet( SetKaart(1,1,1,1), SetKaart(2,2,2,2) ) 
-        aangeroepen wordt dan geldt:
+    Als bijvoorbeeld
+        maakSet( SetKaart(1,1,1,1), SetKaart(2,2,2,2) ) aangeroepen wordt dan geldt:
             kaart1.hoeveelheid = 1
             kaart1.kleur = 1
             kaart1.vorm = 1

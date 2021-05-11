@@ -1,5 +1,5 @@
 from setgame.setkaart import SetKaart
-from setgame.game import Game
+from setgame.abstractgame import Game
 
 def isSet(self, kaart1, kaart2, kaart3):
     """

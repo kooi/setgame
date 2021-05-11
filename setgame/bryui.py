@@ -1,5 +1,5 @@
 from .cardcanvas import CardCanvas
-from .game import Game
+from .abstractgame import Game
 from .deck import Deck
 from .field import Field
 from .setkaart import SetKaart

@@ -4,7 +4,7 @@ Brython versie van het spel Set.
 
 from setgame.setkaart import SetKaart
 from setgame.deck import Deck
-from setgame.game import Game
+from setgame.abstractgame import Game
 from setgame.field import Field
 from setgame.bryui import BryUI
 
