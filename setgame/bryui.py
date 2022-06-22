@@ -39,21 +39,32 @@ class BryUI():
     def testSet(self, event):
         sc = self.selectedCards
         if len(sc) == 3:
-            rv = self.game.isSet(sc[0].setcard, sc[1].setcard, sc[2].setcard)
-            if rv == True:
-                msg = alert("Set!")
+            try:
+                rv = self.game.isSet(sc[0].setcard, sc[1].setcard, sc[2].setcard)
+            except Exception as e:
+                import javascript as js
+                js.this().myPrompt.error("ERROR: " + str(e))
+                # msg = alert("error")
             else:
-                msg = alert("Geen set :(")
+                if rv == True:
+                    msg = alert("Set!")
+                else:
+                    msg = alert("Geen set :(")
         else:
             msg = alert("Selecteer precies 3 kaarten.")
 
     def makeSet(self, event):
         sc = self.selectedCards
         if len(sc) == 2:
-            self.requiredCard = self.game.maakSet(sc[0].setcard, sc[1].setcard)
-            self.requiredCardText = repr(self.requiredCard)
-            # self.requiredCards.append(CardCanvas(None, 12, "name12", self.requiredCard, element_id="required_cardcanvas"))
-            document["required_card"].html = self.requiredCardText
+            try:
+                self.requiredCard = self.game.maakSet(sc[0].setcard, sc[1].setcard)
+            except Exception as e:
+                import javascript as js
+                js.this().myPrompt.error("ERROR: " + str(e))
+            else:
+                self.requiredCardText = repr(self.requiredCard)
+                # self.requiredCards.append(CardCanvas(None, 12, "name12", self.requiredCard, element_id="required_cardcanvas"))
+                document["required_card"].html = self.requiredCardText
         else:
             msg = alert("Selecteer precies 2 kaarten.")
 
