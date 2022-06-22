@@ -89,6 +89,7 @@
             border: 1px solid #ddd;
             border-bottom-color: transparent;
         }
+
         #status-bar {
             padding: 10px 15px;
             float: right;
@@ -133,7 +134,6 @@
 
         /* button {
         } */
-
     </style>
 
 </head>
@@ -203,22 +203,46 @@
                     <!-- <h4>Field</h4> -->
                     <table id="canvas-field">
                         <tr>
-                            <td><div id="canvas0" class="cardcanvas"></div></td>
-                            <td><div id="canvas1" class="cardcanvas"></div></td>
-                            <td><div id="canvas2" class="cardcanvas"></div></td>
-                            <td><div id="canvas3" class="cardcanvas"></div></td>
+                            <td>
+                                <div id="canvas0" class="cardcanvas"></div>
+                            </td>
+                            <td>
+                                <div id="canvas1" class="cardcanvas"></div>
+                            </td>
+                            <td>
+                                <div id="canvas2" class="cardcanvas"></div>
+                            </td>
+                            <td>
+                                <div id="canvas3" class="cardcanvas"></div>
+                            </td>
                         </tr>
                         <tr>
-                            <td><div id="canvas4" class="cardcanvas"></div></td>
-                            <td><div id="canvas5" class="cardcanvas"></div></td>
-                            <td><div id="canvas6" class="cardcanvas"></div></td>
-                            <td><div id="canvas7" class="cardcanvas"></div></td>
+                            <td>
+                                <div id="canvas4" class="cardcanvas"></div>
+                            </td>
+                            <td>
+                                <div id="canvas5" class="cardcanvas"></div>
+                            </td>
+                            <td>
+                                <div id="canvas6" class="cardcanvas"></div>
+                            </td>
+                            <td>
+                                <div id="canvas7" class="cardcanvas"></div>
+                            </td>
                         </tr>
                         <tr>
-                            <td><div id="canvas8" class="cardcanvas"></div></td>
-                            <td><div id="canvas9" class="cardcanvas"></div></td>
-                            <td><div id="canvas10" class="cardcanvas"></div></td>
-                            <td><div id="canvas11" class="cardcanvas"></div></td>
+                            <td>
+                                <div id="canvas8" class="cardcanvas"></div>
+                            </td>
+                            <td>
+                                <div id="canvas9" class="cardcanvas"></div>
+                            </td>
+                            <td>
+                                <div id="canvas10" class="cardcanvas"></div>
+                            </td>
+                            <td>
+                                <div id="canvas11" class="cardcanvas"></div>
+                            </td>
                         </tr>
                     </table>
                 </td>
@@ -340,15 +364,15 @@
         });
         // Load data from localStorage
         try {
-                myCodeMirror.setValue(localStorage.game_patch);
-                myPrompt.inform('game_patch.py loaded from localStorage')
+            myCodeMirror.setValue(localStorage.game_patch);
+            myPrompt.inform('game_patch.py loaded from localStorage')
         }
         catch (e) {
             if (e instanceof TypeError) {
                 myPrompt.error("Error: 'game_patch.py' not found in localStorage");
             }
             else {
-                myPrompt.error(e.name + ': '+ e.message);
+                myPrompt.error(e.name + ': ' + e.message);
                 console.log(e);
             }
         }
@@ -383,7 +407,7 @@
         // });
         // Save game_patch file to localStorage (codemirror-onchange)
         let myTimeout = null;
-        myCodeMirror.doc.on('change', function(){
+        myCodeMirror.doc.on('change', function () {
             try {
                 window.clearTimeout(myTimeout);
             }
@@ -396,7 +420,7 @@
             let myTime = myDate.getTime();
             let myElement = document.getElementById('status-bar')
             myElement.innerHTML = "";
-            myTimeout = window.setTimeout(function(){
+            myTimeout = window.setTimeout(function () {
                 // window.setTimeout(function(){});
                 myElement.innerHTML = 'Autosaved at ' + myDate.toTimeString();
             }, 2000);//wait 2 seconds
@@ -404,34 +428,34 @@
 
 
         // Revert to default code
-        document.getElementById('revertToDefault_button').addEventListener('click', function() {
-            if (window.confirm("This will revert all current code back to default! Are you sure?") ) {
+        document.getElementById('revertToDefault_button').addEventListener('click', function () {
+            if (window.confirm("This will revert all current code back to default! Are you sure?")) {
                 myCodeMirror.setValue(game_patch);
                 myPrompt.inform("Code reverted.")
             }
         });
 
         // Run game_patch overwriting `game.isset` and `game.maakset`
-        document.getElementById('apply_button').addEventListener('click', function() {
+        document.getElementById('apply_button').addEventListener('click', function () {
             try {
-                eval(__BRYTHON__.python_to_js(myCodeMirror.getValue()));
+                eval(pycode = __BRYTHON__.python_to_js(myCodeMirror.getValue()));
                 myPrompt.success("Patch applied successfully.");
             }
             catch (e) {
-                myPrompt.error(e.name);
-                console.log(e)
+                myPrompt.error(`${e.toString()}: ${e.msg} on line ${e.lineno}`);
+                console.log(e);
             }
         });
 
-        document.getElementById('download_button').addEventListener('click', function() {
+        document.getElementById('download_button').addEventListener('click', function () {
             // TODO: Include username in base name
             var fnb = 'game_patch_' + myUser.name.toLowerCase();
             var d = new Date();
             var fileName = fnb + '_' + d.toJSON()
-                                        .substring(0,10) // reverse date format
-                                        .split('-')
-                                        .join('')
-                                     + '.py';
+                .substring(0, 10) // reverse date format
+                .split('-')
+                .join('')
+                + '.py';
             var code = myCodeMirror.getValue();
 
             if ('Blob' in window) {
@@ -457,7 +481,7 @@
 </script>
 <script>
     // TODO: async load from game_patch.py
-var game_patch = `from setgame.setkaart import SetKaart
+    var game_patch = `from setgame.setkaart import SetKaart
 from setgame.abstractgame import Game
 
 def isSet(self, kaart1, kaart2, kaart3):
